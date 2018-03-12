@@ -1,9 +1,9 @@
 # Project Title
 
 Recommended names for application:
-C-SAW : Costaatt - Student Advisement Web
-CAAPP : Costaatt Advisement Application 
-SAFER : Student Advisement For Enrollement / Registration
+* C-SAW : Costaatt - Student Advisement Web
+* CAAPP : Costaatt Advisement Application 
+* SAFER : Student Advisement For Enrollement / Registration
 
 ## Getting Started
 
