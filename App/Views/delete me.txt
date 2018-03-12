@@ -1,0 +1,2 @@
+git hub ignores empty folders. 
+when files are added to these directories, this file can be deleted.
