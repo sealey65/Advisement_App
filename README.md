@@ -1,12 +1,12 @@
 # Project Title
 
-Recommended names for application:
-* C-SAW : Costaatt - Student Advisement Web
-* CAAPP : Costaatt Advisement Application 
-* SAFER : Student Advisement For Enrollement / Registration
+Please Vote on the Title. There is an issue created for it.
+
+## Guidelines
+Please remember that on Github it is easy to overwrite someone elses hard work.
+It is sometimes best to create a branch and submit it for review (email the class or create an issue)
 
 ## Getting Started
-
 
 
 ### Prerequisites
