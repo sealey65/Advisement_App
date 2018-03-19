@@ -13,5 +13,5 @@ npm-debug.log
 # cache folder twig uses
 /cache
 
-# log folder, place logs and so on here
-/logs
+# logs in log folder
+*.logs
