@@ -1,5 +1,0 @@
-Do not delete this file.
-Errors will be created and placed in this folder.
-To enable error logging, set SHOW_ERRORS = false; in Config.php
-
-!important! In production, SHOW_ERRORS should be set to 'false' for security. 

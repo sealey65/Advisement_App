@@ -1,59 +1,66 @@
-# Project Title
+# Advise Me! 
 
-Please Vote on the Title. There is an issue created for it.
+Costaatt Advisement Web Application
 
-## Guidelines
-Please remember that on Github it is easy to overwrite someone elses hard work.
-It is sometimes best to create a branch and submit it for review (email the class or create an issue)
+see [Wiki on Github](https://github.com/EarlTilluck/Advisement_App/wiki) for more details
+
+## Contributing
+Email: earltilluck@hotmail.com with the following information 
+
+* Github account username 
+* Your actual name 
+
 
 ## Getting Started
 
-
 ### Prerequisites
 
-WAMP or AMPPs
+* [WAMP](http://www.wampserver.com/en/) or [AMPPS](https://www.ampps.com/)
+* [Composer](https://getcomposer.org/)
+* [Twig](https://twig.symfony.com/) (installs with Composer)
 
 ### Installing
 
-Place folder in www directory.
-.htaccess already configured.
+1. Create branches in your www directory. This will create a folder called Advisement_App
+2. Open Command Prompt or Terminal and change directory to Advisement_App folder
+3. Run the command ```composer install --no-dev ```
+4. Ensure that at least **PHP version 7.0.0** is being used.  
 
-```
-public folder should be configured to be the root of the virtual host,
-however, that is not necessary during development, only on the published product.
-(if it is ever published)
-```
+*refer to chapter 6 for more on Composer*
+
+## Guidelines for developers
+
+> Create branches, merges will be decided in class or group discussion.
+
+> Feel free to create issues for feature requests, bug fixes and basically anything.
+
+>Twig and other dependencies is installed into a vendor folder, git will ignore this folder when you commit.
+
+>'logs' folder should remain empty
 
 ## Deployment
+Things to remember:
 
-To be decided....
+* Set public folder to be root folder.
+* In ```Config.php```, set errors to be logged or ignored.
+* If error logging is enabled, clear log folder on occasion.
+* In ```Config.php```, set database connection information. 
+* For database, don't use root username or blank password.
+* Enable twig cache in ```Core/View.php``` for speed up.
+
 
 ## Built With
 
-* [PHP](http://php.net/) - Server Side Scripting
+* [PHP 7](http://php.net/) - Server Side Scripting
 * [MySQL](https://www.mysql.com/) - Database
 
-## Contributing
-
-Open to all members of the class. 
-Email: earltilluck@hotmail.com with the following information: 
-* Github account username 
-* Your actual name 
-* COSTAATT ID (will be verified on the e-classroom)
-
-## Versioning
-
-nothing yet...
-
-## Authors
-
-* **Earl Tilluck** - *Contributor*
-* **Add Your** - *Information here...*
 
 ## License
+add license....
 
-Not added yet, I don't think it should be Creative Commons.. (Earl)
+---
+###Todo 
 
-## Acknowledgments
-
-* God, Redbull or the internet... 
+* talk about composer in class
+* talk about error logging, (logs can clutter)
+* create wiki page?
