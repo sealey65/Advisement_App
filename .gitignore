@@ -14,4 +14,4 @@ npm-debug.log
 /cache
 
 # logs in log folder
-*.logs
+*.log
