@@ -30,13 +30,10 @@ Email: earltilluck@hotmail.com with the following information
 
 ## Guidelines for developers
 
-> Create branches, merges will be decided in class or group discussion.
-
-> Feel free to create issues for feature requests, bug fixes and basically anything.
-
->Twig and other dependencies is installed into a vendor folder, git will ignore this folder when you commit.
-
->'logs' folder should remain empty
+* Create branches, merges will be decided in class or group discussion.
+* Feel free to create issues for feature requests, bug fixes and basically anything.
+* Twig and other dependencies is installed into a vendor folder, git will ignore this folder when you commit.
+* 'logs' folder should remain empty
 
 ## Deployment
 Things to remember:
@@ -56,11 +53,4 @@ Things to remember:
 
 
 ## License
-add license....
-
----
-###Todo 
-
-* talk about composer in class
-* talk about error logging, (logs can clutter)
-* create wiki page?
+see LICENSE.md for details
