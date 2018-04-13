@@ -7,6 +7,11 @@ see [Wiki on Github](https://github.com/EarlTilluck/Advisement_App/wiki) for mor
 ## Contributing
 Email: earltilluck@hotmail.com with the following information 
 
+## Queries: Stacy, Kafra, Derek
+## DB Design: Katrina, Amanda
+## Design: Shaquille, Adrien, Nicholas
+## Supervisor: Earl
+ 
 * Github account username 
 * Your actual name 
 
