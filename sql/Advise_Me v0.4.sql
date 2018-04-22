@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.15.9
--- https://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Apr 21, 2018 at 05:26 AM
--- Server version: 5.6.37
--- PHP Version: 7.1.8
+-- Host: 127.0.0.1:3306
+-- Generation Time: Apr 22, 2018 at 04:45 AM
+-- Server version: 5.7.19
+-- PHP Version: 7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,8 +19,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Advise_Me`
+-- Database: `advise_me`
 --
+CREATE DATABASE IF NOT EXISTS `advise_me` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `advise_me`;
 
 -- --------------------------------------------------------
 
@@ -26,13 +30,17 @@ SET time_zone = "+00:00";
 -- Table structure for table `advised_course`
 --
 
+DROP TABLE IF EXISTS `advised_course`;
 CREATE TABLE IF NOT EXISTS `advised_course` (
-  `adv_course_id` int(11) NOT NULL,
+  `adv_course_id` int(11) NOT NULL AUTO_INCREMENT,
   `course_code` varchar(10) NOT NULL,
   `advisement_id` int(11) NOT NULL,
   `advised_status` varchar(20) NOT NULL,
   `advised_type` varchar(50) NOT NULL,
-  `grade` char(2) NOT NULL
+  `grade` char(2) NOT NULL,
+  PRIMARY KEY (`adv_course_id`),
+  KEY `course_code` (`course_code`),
+  KEY `advisement_id` (`advisement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -41,11 +49,15 @@ CREATE TABLE IF NOT EXISTS `advised_course` (
 -- Table structure for table `advisement`
 --
 
+DROP TABLE IF EXISTS `advisement`;
 CREATE TABLE IF NOT EXISTS `advisement` (
-  `advisement_id` int(11) NOT NULL,
+  `advisement_id` int(11) NOT NULL AUTO_INCREMENT,
   `stu_id` varchar(50) NOT NULL,
   `adv_id` varchar(50) NOT NULL,
-  `semester_id` varchar(10) NOT NULL
+  `semester_id` varchar(10) NOT NULL,
+  PRIMARY KEY (`advisement_id`),
+  KEY `stu_id` (`stu_id`),
+  KEY `adv_id` (`adv_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -54,12 +66,16 @@ CREATE TABLE IF NOT EXISTS `advisement` (
 -- Table structure for table `advisor`
 --
 
+DROP TABLE IF EXISTS `advisor`;
 CREATE TABLE IF NOT EXISTS `advisor` (
   `user_id` varchar(50) NOT NULL,
   `adv_fname` varchar(50) NOT NULL,
   `adv_lname` varchar(50) NOT NULL,
   `dept_id` int(11) NOT NULL,
-  `campus_id` varchar(6) NOT NULL
+  `campus_id` varchar(6) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `dept_id` (`dept_id`),
+  KEY `campus_id` (`campus_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -68,10 +84,12 @@ CREATE TABLE IF NOT EXISTS `advisor` (
 -- Table structure for table `campus`
 --
 
+DROP TABLE IF EXISTS `campus`;
 CREATE TABLE IF NOT EXISTS `campus` (
   `campus_id` varchar(6) NOT NULL,
   `campus_name` varchar(255) NOT NULL,
-  `campus_address` varchar(255) NOT NULL
+  `campus_address` varchar(255) NOT NULL,
+  PRIMARY KEY (`campus_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -93,10 +111,12 @@ INSERT INTO `campus` (`campus_id`, `campus_name`, `campus_address`) VALUES
 -- Table structure for table `course`
 --
 
+DROP TABLE IF EXISTS `course`;
 CREATE TABLE IF NOT EXISTS `course` (
   `course_code` varchar(10) NOT NULL,
   `course_name` varchar(50) NOT NULL,
-  `credit_hours` int(11) NOT NULL
+  `credit_hours` int(11) NOT NULL,
+  PRIMARY KEY (`course_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -186,9 +206,11 @@ INSERT INTO `course` (`course_code`, `course_name`, `credit_hours`) VALUES
 -- Table structure for table `department`
 --
 
+DROP TABLE IF EXISTS `department`;
 CREATE TABLE IF NOT EXISTS `department` (
-  `dept_id` int(11) NOT NULL,
-  `dept_name` varchar(255) NOT NULL
+  `dept_id` int(11) NOT NULL AUTO_INCREMENT,
+  `dept_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`dept_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
@@ -216,12 +238,16 @@ INSERT INTO `department` (`dept_id`, `dept_name`) VALUES
 -- Table structure for table `post`
 --
 
+DROP TABLE IF EXISTS `post`;
 CREATE TABLE IF NOT EXISTS `post` (
-  `post_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `post_date` date NOT NULL,
   `user_id` varchar(50) NOT NULL,
   `content` text NOT NULL,
-  `advisement_id` int(11) NOT NULL
+  `advisement_id` int(11) NOT NULL,
+  PRIMARY KEY (`post_id`),
+  KEY `user_id` (`user_id`),
+  KEY `advisement_id` (`advisement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -230,11 +256,15 @@ CREATE TABLE IF NOT EXISTS `post` (
 -- Table structure for table `prerequisite`
 --
 
+DROP TABLE IF EXISTS `prerequisite`;
 CREATE TABLE IF NOT EXISTS `prerequisite` (
-  `prereq_id` int(11) NOT NULL,
+  `prereq_id` int(11) NOT NULL AUTO_INCREMENT,
   `course_code` varchar(10) NOT NULL,
   `prereq_code` varchar(10) NOT NULL,
-  `pass_grade` char(2) NOT NULL
+  `pass_grade` char(2) NOT NULL,
+  PRIMARY KEY (`prereq_id`),
+  KEY `course_code` (`course_code`),
+  KEY `prereq_code` (`prereq_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 --
@@ -299,12 +329,15 @@ INSERT INTO `prerequisite` (`prereq_id`, `course_code`, `prereq_code`, `pass_gra
 -- Table structure for table `program`
 --
 
+DROP TABLE IF EXISTS `program`;
 CREATE TABLE IF NOT EXISTS `program` (
-  `program_id` int(11) NOT NULL,
+  `program_id` int(11) NOT NULL AUTO_INCREMENT,
   `program_name` varchar(255) NOT NULL,
   `program_level` varchar(255) NOT NULL,
   `year_issued` year(4) NOT NULL,
-  `dept_id` int(11) NOT NULL
+  `dept_id` int(11) NOT NULL,
+  PRIMARY KEY (`program_id`),
+  KEY `dept_id` (`dept_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
@@ -334,12 +367,16 @@ INSERT INTO `program` (`program_id`, `program_name`, `program_level`, `year_issu
 -- Table structure for table `program_outline`
 --
 
+DROP TABLE IF EXISTS `program_outline`;
 CREATE TABLE IF NOT EXISTS `program_outline` (
-  `outline_id` int(11) NOT NULL,
+  `outline_id` int(11) NOT NULL AUTO_INCREMENT,
   `program_id` int(11) NOT NULL,
   `course_code` varchar(10) NOT NULL,
   `recommended_semester_full` int(11) NOT NULL,
-  `recommended_semester_part` int(11) NOT NULL
+  `recommended_semester_part` int(11) NOT NULL,
+  PRIMARY KEY (`outline_id`),
+  KEY `program_id` (`program_id`),
+  KEY `course_code` (`course_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -348,10 +385,13 @@ CREATE TABLE IF NOT EXISTS `program_outline` (
 -- Table structure for table `remember_me`
 --
 
+DROP TABLE IF EXISTS `remember_me`;
 CREATE TABLE IF NOT EXISTS `remember_me` (
   `token_hash` varchar(255) NOT NULL,
   `user_id` varchar(50) NOT NULL,
-  `expires_at` datetime NOT NULL
+  `expires_at` datetime NOT NULL,
+  PRIMARY KEY (`token_hash`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -360,10 +400,13 @@ CREATE TABLE IF NOT EXISTS `remember_me` (
 -- Table structure for table `role`
 --
 
+DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
-  `role_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(50) NOT NULL,
-  `role_desc` varchar(255) NOT NULL
+  `role_desc` varchar(255) NOT NULL,
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `role_name` (`role_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
@@ -381,10 +424,12 @@ INSERT INTO `role` (`role_id`, `role_name`, `role_desc`) VALUES
 -- Table structure for table `semester`
 --
 
+DROP TABLE IF EXISTS `semester`;
 CREATE TABLE IF NOT EXISTS `semester` (
   `semester_id` varchar(10) NOT NULL,
   `date_begin` date NOT NULL,
-  `date_end` date NOT NULL
+  `date_end` date NOT NULL,
+  PRIMARY KEY (`semester_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -393,13 +438,17 @@ CREATE TABLE IF NOT EXISTS `semester` (
 -- Table structure for table `student`
 --
 
+DROP TABLE IF EXISTS `student`;
 CREATE TABLE IF NOT EXISTS `student` (
   `user_id` varchar(50) NOT NULL,
   `stu_fname` varchar(50) NOT NULL,
   `stu_lname` varchar(50) NOT NULL,
   `stu_status` varchar(50) NOT NULL,
   `program_id` int(11) NOT NULL,
-  `campus_id` varchar(6) NOT NULL
+  `campus_id` varchar(6) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `program_id` (`program_id`),
+  KEY `campus_id` (`campus_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -408,169 +457,16 @@ CREATE TABLE IF NOT EXISTS `student` (
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` varchar(50) NOT NULL,
   `user_email` varchar(150) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
-  `role_name` varchar(50) NOT NULL
+  `role_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `role_name` (`role_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `advised_course`
---
-ALTER TABLE `advised_course`
-  ADD PRIMARY KEY (`adv_course_id`),
-  ADD KEY `course_code` (`course_code`),
-  ADD KEY `advisement_id` (`advisement_id`);
-
---
--- Indexes for table `advisement`
---
-ALTER TABLE `advisement`
-  ADD PRIMARY KEY (`advisement_id`),
-  ADD KEY `stu_id` (`stu_id`),
-  ADD KEY `adv_id` (`adv_id`);
-
---
--- Indexes for table `advisor`
---
-ALTER TABLE `advisor`
-  ADD PRIMARY KEY (`user_id`),
-  ADD KEY `dept_id` (`dept_id`),
-  ADD KEY `campus_id` (`campus_id`);
-
---
--- Indexes for table `campus`
---
-ALTER TABLE `campus`
-  ADD PRIMARY KEY (`campus_id`);
-
---
--- Indexes for table `course`
---
-ALTER TABLE `course`
-  ADD PRIMARY KEY (`course_code`);
-
---
--- Indexes for table `department`
---
-ALTER TABLE `department`
-  ADD PRIMARY KEY (`dept_id`);
-
---
--- Indexes for table `post`
---
-ALTER TABLE `post`
-  ADD PRIMARY KEY (`post_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `advisement_id` (`advisement_id`);
-
---
--- Indexes for table `prerequisite`
---
-ALTER TABLE `prerequisite`
-  ADD PRIMARY KEY (`prereq_id`),
-  ADD KEY `course_code` (`course_code`),
-  ADD KEY `prereq_code` (`prereq_code`);
-
---
--- Indexes for table `program`
---
-ALTER TABLE `program`
-  ADD PRIMARY KEY (`program_id`),
-  ADD KEY `dept_id` (`dept_id`);
-
---
--- Indexes for table `program_outline`
---
-ALTER TABLE `program_outline`
-  ADD PRIMARY KEY (`outline_id`),
-  ADD KEY `program_id` (`program_id`),
-  ADD KEY `course_code` (`course_code`);
-
---
--- Indexes for table `remember_me`
---
-ALTER TABLE `remember_me`
-  ADD PRIMARY KEY (`token_hash`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `role`
---
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`role_id`),
-  ADD UNIQUE KEY `role_name` (`role_name`);
-
---
--- Indexes for table `semester`
---
-ALTER TABLE `semester`
-  ADD PRIMARY KEY (`semester_id`);
-
---
--- Indexes for table `student`
---
-ALTER TABLE `student`
-  ADD PRIMARY KEY (`user_id`),
-  ADD KEY `program_id` (`program_id`),
-  ADD KEY `campus_id` (`campus_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD KEY `role_name` (`role_name`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `advised_course`
---
-ALTER TABLE `advised_course`
-  MODIFY `adv_course_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `advisement`
---
-ALTER TABLE `advisement`
-  MODIFY `advisement_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `department`
---
-ALTER TABLE `department`
-  MODIFY `dept_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
---
--- AUTO_INCREMENT for table `post`
---
-ALTER TABLE `post`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `prerequisite`
---
-ALTER TABLE `prerequisite`
-  MODIFY `prereq_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
---
--- AUTO_INCREMENT for table `program`
---
-ALTER TABLE `program`
-  MODIFY `program_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
---
--- AUTO_INCREMENT for table `program_outline`
---
-ALTER TABLE `program_outline`
-  MODIFY `outline_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `role`
---
-ALTER TABLE `role`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --
@@ -641,6 +537,7 @@ ALTER TABLE `student`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_name`) REFERENCES `role` (`role_name`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
