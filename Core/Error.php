@@ -48,14 +48,19 @@ class Error {
         http_response_code($code);
         
         
-        // display error on page.
+        // display error on page. --- bootstrap coded for better view
         if (\App\Config::SHOW_ERRORS) {
             
+            echo '<div class="alert alert-sm alert-danger alert-dismissible fade show" role="alert">';
+                    
             echo "<h1>Fatal Error</h1>";
             echo "<p>Uncaught exception: '$cname'</p>";
             echo "<p>Message: '$msg'</p>";
             echo "<p>Stack trace:<pre>$trace</pre></p>";
             echo "<p>Thrown in '$file' on line #$line</p>";
+
+            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+            <span aria-hidden="true">&times;</span> </button> </div>';
                  
         } 
         

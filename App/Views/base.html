@@ -1,17 +1,97 @@
 <!DOCTYPE html>
 <html>
     <head>
+        
         <meta charset="utf-8">
-        <title>{% block title %}{% endblock %} &middot; Advise Me</title>
+        
+        <title>E-Bank: {% block title %}{% endblock %}</title>
+        
+        <!-- link to bootstrap css -->
+        <link rel="stylesheet" 
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+              crossorigin="anonymous">
+        
+        <!-- link to custom css -->
+        <link rel="stylesheet" href="/css/style.css" />
+    
+        <!-- google fonts -->
+        <!--link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet" --> 
     </head>
+    
     <body>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/grades">Grades</a>
+        <!-- bootstrap navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">Advise Me</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item {% if view == 'Home/index.html' %}active{% endif %}" >
+                        <a class="nav-link" href="/">Home {% if view == 'Home/index.html' %}<span class="sr-only">(current)</span>{% endif %}</a>
+                    </li>
+                    
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    {% if user %}
+                        <span class="navbar-text">{{user.user_id}}, </span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Sign out</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item {% if view == 'Login/login.html' %}active{% endif %}">
+                            <a class="nav-link" href="/Login">Sign in {% if view == 'Login/login.html' %}<span class="sr-only">(current)</span>{% endif %}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>    
         </nav>
-        {% block body %}{% endblock %}
+        
+        <!-- main content -->
+        <div class="content">
+            
+            <!-- alerts go here -->
+            {% for message in flash_messages %}
+                <div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
+                    {{message.body}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+
+            <div class="container pt-5">
+
+                {% block body %}{% endblock %}
+
+            </div>
+        </div>
+        
         <footer>
-            <p>&copy; info</p>
+            <small>&copy; info...</small>
         </footer>
+        
+        <!-- Jquery CDN -->
+        <script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous">
+        </script>
+        
+        <!-- pooper for bootstrap CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+                crossorigin="anonymous">
+        </script>
+        
+        <!-- bootstrap js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+                crossorigin="anonymous">
+        </script>
+        
+        {% block final %}{% endblock %}
+    
     </body>
 </html>

@@ -40,6 +40,12 @@ set_exception_handler('Core\Error::exceptionHandler');
 
 
 /*
+    Make PHP Session available
+*/
+session_start();
+
+
+/*
     Create new Router Object
 */
 $router = new Core\Router();
@@ -48,13 +54,16 @@ $router = new Core\Router();
 /*
     Add Routes
 */ 
-$router->add('', ['controller' => 'Home', 'action' => 'index']);
+// url/controller/action
 $router->add('{controller}/{action}');
+// url/controller/99/action
 $router->add('{controller}/{id:\d+}/{action}');
-//$router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
-// routes for controller without action specifed e.g. Adviseme/login or Adviseme/grades
-$router->add('{controller}', ['action' => 'index']);
-$router->add('{controller}/', ['action' => 'index']);
+// single action controllers
+$router->add('', ['controller' => 'Home', 'action' => 'index']);
+$router->add('Login', ['controller' => 'Login', 'action' => 'new']);
+$router->add('Logout', ['controller' => 'Login', 'action' => 'logout']);
+$router->add('Help', ['controller' => 'Help', 'action' => 'index']);
+
 
 /*
     Get URL -> Route to Controller -> Dispatch View

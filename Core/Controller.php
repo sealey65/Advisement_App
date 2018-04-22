@@ -69,6 +69,34 @@ abstract class Controller {
     protected function after() {
     }
     
+    
+    /*
+        redirect to another page immediately.
+        sets http response to 303 = redirect.
+    */
+    public function redirect($url) {
+        header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
+        exit;
+    }
+    
+    /*
+        require a login,
+        redirects to login page if the user isn't logged in
+    */
+    public function requireLogin() {
+        
+        // if not logged in
+        if(!Auth::getUser()) {
+            
+            Flash::addMessage('You must login to view this page.', Flash::INFO);
+            
+            Auth::rememberRequestedPage();
+            
+            $this->redirect('/login/new');
+        
+        }
+    }
+    
 }// end class
 
 ?>

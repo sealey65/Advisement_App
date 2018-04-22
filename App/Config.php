@@ -18,7 +18,7 @@ class Config {
         @vars string
     */
     const DB_HOST = 'localhost';
-    const DB_NAME = 'test';
+    const DB_NAME = 'Advise_ME';
     const DB_USER = 'root';
     const DB_PASS = '';
  
@@ -28,6 +28,13 @@ class Config {
     */
     const SHOW_ERRORS = true;
     const LOG_TO_FILE = false;
+    
+    /*
+        Secret Key for Remember me functionality
+        
+    */                  
+    const SECRET_KEY = 'Nt3sHPgWHjIBLUxl8MTJklacPwDnbuQ2';
+    
 }
 
 
