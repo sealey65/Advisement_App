@@ -50,6 +50,7 @@ Things to remember:
 * If error logging is enabled, clear log folder on occasion.
 * In ```Config.php```, set database connection information. 
 * For database, don't use root username or blank password.
+* Database import file located in sql folder
 * Enable twig cache in ```Core/View.php``` for speed up.
 
 
@@ -57,7 +58,7 @@ Things to remember:
 
 * [PHP 7](http://php.net/) - Server Side Scripting
 * [MySQL](https://www.mysql.com/) - Database
-
+* [Bootstrap](https://getbootstrap.com/) - Bootstrap
 
 ## License
 see LICENSE.md for details

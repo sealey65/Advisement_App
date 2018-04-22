@@ -59,10 +59,10 @@ $router->add('{controller}/{action}');
 // url/controller/99/action
 $router->add('{controller}/{id:\d+}/{action}');
 // single action controllers
-$router->add('', ['controller' => 'Home', 'action' => 'index']);
-$router->add('Login', ['controller' => 'Login', 'action' => 'new']);
-$router->add('Logout', ['controller' => 'Login', 'action' => 'logout']);
-$router->add('Help', ['controller' => 'Help', 'action' => 'index']);
+$router->add('', ['controller' => 'Login', 'action' => 'new']);
+//$router->add('Login', ['controller' => 'Login', 'action' => 'new']);
+//$router->add('Logout', ['controller' => 'Login', 'action' => 'logout']);
+//$router->add('Help', ['controller' => 'Help', 'action' => 'index']);
 
 
 /*

@@ -15,9 +15,9 @@ class Login extends \Core\Controller {
     public function newAction() {
         if(Auth::getUser()) {
             
-            Flash::addMessage('You are already signed in', Flash::INFO);
+            //Flash::addMessage('You are already signed in', Flash::INFO);
             
-            $this->redirect('/');
+            $this->redirect('/Advisment');
         
         } else {
             

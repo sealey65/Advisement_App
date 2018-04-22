@@ -33,6 +33,12 @@ class View {
             */
             $twig = new \Twig_Environment($loader);
             //$twig = new \Twig_Environment($loader, array('cache' => dirname(__DIR__) . '/cache'));
+            
+            // make Auth data available in twig
+            $twig->addGlobal('user', \App\Auth::getUser());
+            $twig->addGlobal('flash_messages', \App\Flash::getMessages());
+            $twig->addGlobal('view', $view);
+            
         }
         
         // load the template
