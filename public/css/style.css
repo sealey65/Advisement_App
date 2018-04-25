@@ -1,23 +1,3 @@
-
-/* push footer to bottom of page */
-html, body {
-  height: 100%;
-}
-body {
-  display: flex;
-  flex-direction: column;
-}
-.content {
-  flex: 1 0 auto;
-}
-footer {
-  flex-shrink: 0;
-}
-/* end push footter to bottom of page */
-
-
-
-
 .bg-white {
     background-color: #fff;
 }
@@ -29,8 +9,6 @@ footer {
 .white {
     color: #fff;
 }
-
-
 
 /* Responsive design settings */
 
