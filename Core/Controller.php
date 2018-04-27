@@ -92,7 +92,7 @@ abstract class Controller {
             
             Auth::rememberRequestedPage();
             
-            $this->redirect('/login/new');
+            $this->redirect('/');
         
         }
     }
