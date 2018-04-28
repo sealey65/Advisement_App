@@ -1,3 +1,4 @@
+
 $.validator.addMethod('validPassword',function(value, element, param){
 	if(value!=''){
 		if(value.match(/.*[a-z]+.*/i) == null){

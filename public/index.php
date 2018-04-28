@@ -60,9 +60,12 @@ $router->add('{controller}/{action}');
 $router->add('{controller}/{id:\d+}/{action}');
 // single action controllers
 $router->add('', ['controller' => 'Login', 'action' => 'new']);
-$router->add("logout", ['controller' => 'Home', 'action' => 'destroy']);
 
-$router->add('home', ['controller' => 'Home', 'action' => 'index']);
+$router->add('Logout', ['controller' => 'Login', 'action' => 'logout']);
+
+$router->add('Help', ['controller' => 'Help', 'action' => 'view']);
+
+$router->add('Advisement', ['controller' => 'Advisement', 'action' => 'view']);
 
 /*
     Get URL -> Route to Controller -> Dispatch View

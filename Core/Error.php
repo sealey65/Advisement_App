@@ -48,41 +48,42 @@ class Error {
         http_response_code($code);
         
         
-        // display error on page.
-        if (\App\Config::SHOW_ERRORS) {
+        // only if internal error and not 404 are we interesting in logging or viewing
+        if ($code == 500) {
             
-            
-            echo '<div class="alert alert-sm alert-danger alert-dismissible fade show" role="alert">';
-                    
-            echo "<h1>Fatal Error</h1>";
-            echo "<p>Uncaught exception: '$cname'</p>";
-            echo "<p>Message: '$msg'</p>";
-            echo "<p>Stack trace:<pre>$trace</pre></p>";
-            echo "<p>Thrown in '$file' on line #$line</p>";
+            // display error on page.
+            if (\App\Config::SHOW_ERRORS) {
 
-            echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
-            <span aria-hidden="true">&times;</span> </button> </div>';
-                 
-            
-            
-        } 
+                echo '<div style="position:fixed; width:100%; z-index:9999;" class="alert alert-sm alert-danger alert-dismissible fade show" role="alert">';
+
+                echo "<h1>Fatal Error</h1>";
+                echo "<p>Uncaught exception: '$cname'</p>";
+                echo "<p>Message: '$msg'</p>";
+                echo "<p>Stack trace:<pre>$trace</pre></p>";
+                echo "<p>Thrown in '$file' on line #$line</p>";
+
+                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+                <span aria-hidden="true">&times;</span> </button> </div>';
+
+            } 
         
-        // log error to log file
-        if (\App\Config::LOG_TO_FILE) {
-            
-            //create the log file, file name will be date
-            $log = dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.log';
-            ini_set('error_log', $log);
-            
-            $output =  "Fatal Error occured at " . date('r') . PHP_EOL; 
-            $output .= "Uncaught exception: '$cname'" . PHP_EOL;
-            $output .= "Message: '$msg'" . PHP_EOL;
-            $output .= "Stack trace: $trace" . PHP_EOL;
-            $output .= "Thrown in '$file' on line #$line" . PHP_EOL;
-            
-            error_log($output);
+            // log error to log file
+            if (\App\Config::LOG_TO_FILE) {
+
+                //create the log file, file name will be date
+                $log = dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.log';
+                ini_set('error_log', $log);
+
+                $output =  "Fatal Error occured at " . date('r') . PHP_EOL; 
+                $output .= "Uncaught exception: '$cname'" . PHP_EOL;
+                $output .= "Message: '$msg'" . PHP_EOL;
+                $output .= "Stack trace: $trace" . PHP_EOL;
+                $output .= "Thrown in '$file' on line #$line" . PHP_EOL;
+
+                error_log($output);
+            }
+        
         }
-        
         
         //render either the 404 or 500 html file
         View::render("$code.html");

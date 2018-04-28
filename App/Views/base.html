@@ -10,7 +10,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="robots" content="all,follow">
 		<!-- Bootstrap CSS-->
-		<link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 		<!-- Font Awesome CSS-->
 		<link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
 		<!-- Fontastic Custom icon font-->
@@ -99,24 +99,17 @@
 					</div>
 				</nav>
 			</header>	
-				{% for message in flash_messages %}
-					<div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
-            			{{message.body}}
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                			<span aria-hidden="true">&times;</span>
-            			</button>
-            		</div>	
-				{% endfor %}
-			{% else %}			
-				{% for message in flash_messages %}
-					<div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
-            			{{message.body}}
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                			<span aria-hidden="true">&times;</span>
-            			</button>
-            		</div>
-				{% endfor %}
-  			{% endif %}
+			{% endif %}
+            
+            
+            {% for message in flash_messages %}
+                <div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
+                    {{message.body}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
 			
 			{% block body %}
 			{% endblock %}
@@ -138,17 +131,17 @@
 		
 	  
 		<!-- JavaScript files-->
-		<script src="/js/jquery-3.3.1.min.js"></script>
-		<script src="/js/jquery.validate.min.js"></script>
-		<script src="/js/hideShowPassword.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 		
-		<script src="/vendor/popper.js/umd/popper.min.js"> </script>
-		<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<!--script src="/vendor/popper.js/umd/popper.min.js"> </script>
+		<script src="/vendor/bootstrap/js/bootstrap.min.js"></script-->
 		<script src="/js/grasp_mobile_progress_circle-1.0.0.min.js"></script>
 		<script src="/vendor/jquery.cookie/jquery.cookie.js"> </script>
-		<script src="/vendor/chart.js/Chart.min.js"></script>
+		<!--script src="/vendor/chart.js/Chart.min.js"></script-->
 		<script src="/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-		<script src="/js/charts-home.js"></script>
+		<!--script src="/js/charts-home.js"></script-->
 		<!-- Main File-->
 		<script src="/js/front.js"></script>
 		{% block final %}

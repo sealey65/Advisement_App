@@ -134,23 +134,6 @@ class User extends \Core\Model {
         return $stmt->fetch();
     }
     
-    /*
-        Given a username, get a user class containing a user's information
-    */
-    public static function findByUsername($username) {
-        
-        $sql = 'SELECT * FROM user WHERE username = :username';
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-        
-        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-        
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-            
-        $stmt->execute();
-        
-        return $stmt->fetch();
-    }
     
     
     
@@ -161,12 +144,7 @@ class User extends \Core\Model {
         return static::findByEmail($email)  !== false;        
     }
     
-    /*
-        find if username exits in database 
-    */
-    public static function userNameExists($username) {
-        return static::findByUsername($username) !== false;
-    }
+   
     
     /*
         find if user_id exits in database 

@@ -2,6 +2,9 @@
 
 namespace Core;
 
+use App\Auth;
+use \App\Flash;
+
 /*
     Base Controller
     
@@ -92,7 +95,7 @@ abstract class Controller {
             
             Auth::rememberRequestedPage();
             
-            $this->redirect('/');
+            $this->redirect('/login/new');
         
         }
     }

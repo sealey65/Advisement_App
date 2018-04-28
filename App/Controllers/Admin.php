@@ -5,7 +5,7 @@ namespace App\Controllers;
 use Core\View;
 
 
-class Advisement extends Authenticated {
+class Admin extends Authenticated {
 
     
        
@@ -13,7 +13,7 @@ class Advisement extends Authenticated {
         
         // logic?
         
-        View::render("Advisement/main.html");
+        View::render("Advisement/main.html", []);
     }
     
 

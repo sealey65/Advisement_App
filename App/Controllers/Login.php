@@ -13,12 +13,28 @@ class Login extends \Core\Controller {
         render the login page...
     */
     public function newAction() {
-        if(Auth::getUser()) {
+        $user = Auth::getUser();
+        if($user) {
             
-            Flash::addMessage('You are already signed in', Flash::INFO);
+            //$user->role_name = 'fake';
             
-            $this->redirect('/');
-        
+            // redirect to different pages based on role
+            if($user->role_name == 'student') {
+                $this->redirect('/advisement');
+                
+            }
+            if($user->role_name == 'advisor') {
+                $this->redirect('/advisor');
+                
+            }
+            if($user->role_name == 'Admin') {
+                $this->redirect('/admin');
+                
+            }
+            
+            // undefined role? throw exception to log it, show 500 page
+            throw new \Exception( "User_id: $user->user_id .. does not have a defined role ", 500);
+            
         } else {
             
             View::render("Login/login.html");
@@ -44,7 +60,7 @@ class Login extends \Core\Controller {
     public function createAction() {
         
         // try to authenticate
-        $user = User::authenticate($_POST['username'], $_POST['password']);
+        $user = User::authenticate($_POST['user_id'], $_POST['password']);
         
         // find if remember be checked  
         $remember_me = isset($_POST['remember_me']);
@@ -65,7 +81,7 @@ class Login extends \Core\Controller {
             Flash::addMessage('Login Failed, invalid username or password.', Flash::DANGER);            
             
             View::render("Login/login.html", [ 
-                'username' => $_POST['username'],
+                'user_id' => $_POST['user_id'],
                 'remember_me' => $remember_me
             ]);
             
