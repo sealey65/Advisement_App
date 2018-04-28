@@ -27,7 +27,7 @@ class Config {
         @var boolean
     */
     const SHOW_ERRORS = true;
-    const LOG_TO_FILE = false;
+    const LOG_TO_FILE = true;
     
     /*
         Secret Key for Remember me functionality

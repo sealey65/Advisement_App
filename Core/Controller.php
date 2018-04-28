@@ -19,7 +19,6 @@ abstract class Controller {
     */
     protected $route_params = [];
     
-    
     /*
         constructor: set the route_params var
     */

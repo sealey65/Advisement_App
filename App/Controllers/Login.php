@@ -19,25 +19,27 @@ class Login extends \Core\Controller {
             //$user->role_name = 'fake';
             
             // redirect to different pages based on role
-            if($user->role_name == 'student') {
+            if( strcasecmp($user->role_name, 'student') == 0 ) {
                 $this->redirect('/advisement');
                 
             }
-            if($user->role_name == 'advisor') {
+            if( strcasecmp($user->role_name, 'advisor') == 0 ) {
                 $this->redirect('/advisor');
                 
             }
-            if($user->role_name == 'Admin') {
+            if( strcasecmp($user->role_name, 'admin') == 0 ) {
                 $this->redirect('/admin');
                 
             }
             
-            // undefined role? throw exception to log it, show 500 page
+            // undefined role? throw exception to log it if enabled, show 500 page
             throw new \Exception( "User_id: $user->user_id .. does not have a defined role ", 500);
             
+            // views should check roles before displaying actionable content 
+    
         } else {
             
-            View::render("Login/login.html");
+            View::render("login.html");
         
         }
     }
@@ -80,7 +82,7 @@ class Login extends \Core\Controller {
             
             Flash::addMessage('Login Failed, invalid username or password.', Flash::DANGER);            
             
-            View::render("Login/login.html", [ 
+            View::render("login.html", [ 
                 'user_id' => $_POST['user_id'],
                 'remember_me' => $remember_me
             ]);

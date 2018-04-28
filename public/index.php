@@ -65,7 +65,7 @@ $router->add('Logout', ['controller' => 'Login', 'action' => 'logout']);
 
 $router->add('Help', ['controller' => 'Help', 'action' => 'view']);
 
-$router->add('Advisement', ['controller' => 'Advisement', 'action' => 'view']);
+$router->add('Advisement', ['controller' => 'Advisements', 'action' => 'view']);
 
 /*
     Get URL -> Route to Controller -> Dispatch View
