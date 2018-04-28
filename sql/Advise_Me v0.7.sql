@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 28, 2018 at 01:55 AM
+-- Generation Time: Apr 28, 2018 at 04:32 AM
 -- Server version: 5.6.37
 -- PHP Version: 7.1.8
 
@@ -35,7 +35,23 @@ CREATE TABLE IF NOT EXISTS `advised_course` (
   `advised_status` varchar(20) NOT NULL,
   `advised_type` varchar(50) NOT NULL,
   `grade` char(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `advised_course`
+--
+
+INSERT INTO `advised_course` (`adv_course_id`, `course_code`, `advisement_id`, `advised_status`, `advised_type`, `grade`) VALUES
+(1, 'ITEC 120', 3, 'Completed', 'Compulsory', 'B'),
+(2, 'ITEC 240', 3, 'Completed', 'Compulsory', 'B'),
+(3, 'ITEC 240', 3, 'Completed', 'Compulsory', 'C'),
+(4, 'ITEC 229', 4, 'Completed', 'Compulsory', 'D'),
+(5, 'ITEC 260', 4, 'Completed', 'Compulsory', 'A'),
+(6, 'ITEC 133', 7, 'Completed', 'Compulsory', 'A'),
+(7, 'ITEC 240', 7, 'Completed', 'Compulsory', 'B'),
+(8, 'ITEC 120', 7, 'Completed', 'Compulsory', 'B'),
+(9, 'ITEC 122', 8, 'Completed', 'Compulsory', 'B'),
+(10, 'ITEC 260', 8, 'Completed', 'Compulsory', 'C');
 
 -- --------------------------------------------------------
 
@@ -48,7 +64,21 @@ CREATE TABLE IF NOT EXISTS `advisement` (
   `stu_id` varchar(50) NOT NULL,
   `adv_id` varchar(50) NOT NULL,
   `semester_id` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `advisement`
+--
+
+INSERT INTO `advisement` (`advisement_id`, `stu_id`, `adv_id`, `semester_id`) VALUES
+(1, '00052358', 'AD_Nagee', '201630'),
+(2, '00052358', 'AD_Nagee', '201710'),
+(3, '00052358', 'AD_Nagee', '201720'),
+(4, '00052358', 'AD_Nagee', '201730'),
+(5, '00055873', 'AD_Nagee', '201710'),
+(6, '00055873', 'AD_Nagee', '201720'),
+(7, '00055873', 'AD_Nagee', '201730'),
+(8, '00055873', 'AD_Nagee', '201810');
 
 -- --------------------------------------------------------
 
@@ -63,6 +93,13 @@ CREATE TABLE IF NOT EXISTS `advisor` (
   `dept_id` int(11) NOT NULL,
   `campus_id` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `advisor`
+--
+
+INSERT INTO `advisor` (`user_id`, `adv_fname`, `adv_lname`, `dept_id`, `campus_id`) VALUES
+('AD_NAGEE', 'Alicia', 'Dennis-Nagee', 1, 'SSC');
 
 -- --------------------------------------------------------
 
@@ -221,11 +258,25 @@ INSERT INTO `department` (`dept_id`, `dept_name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `post` (
   `post_id` int(11) NOT NULL,
-  `post_date` date NOT NULL,
+  `post_date` datetime NOT NULL,
   `user_id` varchar(50) NOT NULL,
   `content` text NOT NULL,
   `advisement_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `post`
+--
+
+INSERT INTO `post` (`post_id`, `post_date`, `user_id`, `content`, `advisement_id`) VALUES
+(1, '2017-01-25 08:15:06', '00052358', 'Hi Miss, is there a prereq for ITEC 240?', 3),
+(2, '2017-01-25 14:15:06', 'AD_Nagee', 'No there isn''t.', 3),
+(3, '2017-06-08 08:15:06', '00052358', 'Hi Miss, is there a prereq for ITEC 270?', 4),
+(4, '2017-06-09 08:15:06', 'AD_Nagee', 'Yes, its ITEC 133.', 4),
+(5, '2017-09-05 08:15:06', '00052358', 'Hi Miss, is there a prereq for ITEC 229?', 8),
+(6, '2017-09-07 14:15:06', 'AD_Nagee', 'No there isn''t.', 8),
+(7, '2017-06-08 08:15:06', '00052358', 'Hi Miss, can I do ITEC 270?', 7),
+(8, '2017-06-09 08:15:06', 'AD_Nagee', 'No, not yet. You have yet to do the prereq?', 7);
 
 -- --------------------------------------------------------
 
@@ -238,64 +289,71 @@ CREATE TABLE IF NOT EXISTS `prerequisite` (
   `course_code` varchar(10) NOT NULL,
   `prereq_code` varchar(10) NOT NULL,
   `pass_grade` char(2) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `prerequisite`
 --
 
 INSERT INTO `prerequisite` (`prereq_id`, `course_code`, `prereq_code`, `pass_grade`) VALUES
-(1, 'LIBS 130', 'WRIT 117', 'C'),
-(2, 'SOCI 102', 'WRIT 117', 'C'),
-(3, 'STAT 120', 'MATH 116', 'C'),
-(4, 'ITEC 133', 'MATH 093', 'C'),
-(5, 'ITEC 270', 'ITEC 133', 'C'),
+(1, 'COMM 118', 'WRIT 117', 'D'),
+(2, 'SOCI 102', 'WRIT 117', 'D'),
+(3, 'STAT 120', 'MATH 116', 'D'),
+(4, 'MATH 143', 'MATH 118', 'D'),
+(5, 'MATH 117', 'MATH 093', 'D'),
 (6, 'ITEC 122', 'ITEC 120', 'C'),
-(7, 'ITEC 235', 'ITEC 133', 'C'),
-(8, 'ITEC 236', 'ITEC 235', 'C'),
-(9, 'ITEC 225', 'ITEC 133', 'C'),
-(10, 'ITEC 228', 'ITEC 225', 'C'),
-(11, 'ITEC 292', 'ITEC 235', 'C'),
-(12, 'ITEC 124', 'ITEC 122', 'C'),
-(13, 'ITEC 251', 'ITEC 250', 'C'),
-(14, 'ITEC 285', 'ITEC 250', 'C'),
-(15, 'ITEC 285', 'ITEC 133', 'C'),
-(16, 'ITEC 244', 'ITEC 133', 'C'),
-(17, 'ITEC 245', 'ITEC 133', 'C'),
-(18, 'ITEC 243', 'ITEC 133', 'C'),
-(19, 'ITEC 457', 'ITEC 351', 'C'),
-(20, 'ITEC 457', 'ITEC 352', 'C'),
-(21, 'ITEC 351', 'ITEC 251', 'C'),
-(22, 'ITEC 352', 'ITEC 351', 'C'),
-(23, 'ITEC 456', 'ITEC 251', 'C'),
-(24, 'ITEC 453', 'ITEC 251', 'C'),
-(25, 'ITEC 452', 'ITEC 351', 'C'),
-(26, 'ITEC 452', 'ITEC 352', 'C'),
-(27, 'ITEC 451', 'ITEC 351', 'C'),
-(28, 'ITEC 451', 'ITEC 352', 'C'),
-(29, 'ITEC 363', 'ITEC 351', 'C'),
-(30, 'ITEC 360', 'ITEC 260', 'C'),
-(31, 'ITEC 322', 'ITEC 124', 'C'),
-(32, 'ITEC 371', 'ITEC 270', 'C'),
-(33, 'ITEC 372', 'ITEC 270', 'C'),
-(34, 'ITEC 374', 'ITEC 133', 'C'),
-(35, 'ITEC 375', 'ITEC 270', 'C'),
-(36, 'ITEC 476', 'ITEC 376', 'C'),
-(37, 'ITEC 476', 'ITEC 472', 'C'),
-(38, 'ITEC 472', 'ITEC 372', 'C'),
-(39, 'ITEC 474', 'ITEC 374', 'C'),
-(40, 'ITEC 478', 'ITEC 372', 'C'),
-(41, 'ITEC 291', 'ITEC 244', 'C'),
-(42, 'ITEC 291', 'GRDE 129', 'C'),
-(43, 'ITEC 342', 'ITEC 244', 'C'),
-(44, 'ITEC 343', 'ITEC 244', 'C'),
-(45, 'ITEC 443', 'ITEC 236', 'C'),
-(46, 'ITEC 443', 'ITEC 243', 'C'),
-(47, 'ITEC 345', 'ITEC 244', 'C'),
-(48, 'ITEC 345', 'ITEC 245', 'C'),
-(49, 'ITEC 445', 'ITEC 245', 'C'),
-(50, 'ITEC 445', 'ITEC 345', 'C'),
-(52, 'MATH 143', 'MATH 118', 'C');
+(7, 'ITEC 124', 'ITEC 122', 'D'),
+(8, 'ITEC 133', 'MATH 093', 'C'),
+(9, 'ITEC 225', 'ITEC 133', 'D'),
+(10, 'ITEC 228', 'ITEC 225', 'D'),
+(11, 'ITEC 235', 'ITEC 133', 'D'),
+(12, 'ITEC 236', 'ITEC 235', 'D'),
+(13, 'ITEC 243', 'ITEC 133', 'D'),
+(14, 'ITEC 244', 'ITEC 240', 'D'),
+(15, 'ITEC 244', 'ITEC 270', 'D'),
+(16, 'ITEC 245', 'ITEC 133', 'D'),
+(17, 'ITEC 250', 'ITEC 122', 'C'),
+(18, 'ITEC 251', 'ITEC 250', 'D'),
+(19, 'ITEC 260', 'ITEC 250', 'D'),
+(20, 'ITEC 270', 'ITEC 133', 'C'),
+(21, 'ITEC 285', 'ITEC 250', 'D'),
+(22, 'ITEC 285', 'ITEC 133', 'D'),
+(23, 'ITEC 292', 'ITEC 235', 'D'),
+(24, 'ITEC 457', 'ITEC 363', 'D'),
+(25, 'ITEC 457', 'ITEC 456', 'D'),
+(26, 'ITEC 457', 'ITEC 451', 'D'),
+(27, 'ITEC 457', 'ITEC 452', 'D'),
+(28, 'ITEC 456', 'ITEC 251', 'D'),
+(29, 'ITEC 453', 'ITEC 251', 'D'),
+(30, 'ITEC 452', 'ITEC 351', 'D'),
+(31, 'ITEC 452', 'ITEC 352', 'D'),
+(32, 'ITEC 451', 'ITEC 351', 'D'),
+(33, 'ITEC 451', 'ITEC 352', 'D'),
+(34, 'ITEC 363', 'ITEC 351', 'D'),
+(35, 'ITEC 360', 'ITEC 260', 'D'),
+(36, 'ITEC 352', 'ITEC 351', 'D'),
+(37, 'ITEC 351', 'ITEC 251', 'D'),
+(38, 'ITEC 371', 'ITEC 270', 'D'),
+(39, 'ITEC 372', 'ITEC 270', 'D'),
+(40, 'ITEC 374', 'ITEC 270', 'D'),
+(41, 'ITEC 375', 'ITEC 270', 'D'),
+(42, 'ITEC 376', 'ITEC 270', 'D'),
+(43, 'ITEC 376', 'ITEC 240', 'D'),
+(44, 'ITEC 476', 'ITEC 376', 'D'),
+(45, 'ITEC 472', 'ITEC 372', 'D'),
+(46, 'ITEC 474', 'ITEC 374', 'D'),
+(47, 'ITEC 478', 'ITEC 372', 'D'),
+(48, 'ITEC 251', 'ITEC 250', 'D'),
+(49, 'ITEC 291', 'ITEC 244', 'D'),
+(50, 'ITEC 291', 'GRDE 129', 'D'),
+(51, 'ITEC 342', 'ITEC 244', 'D'),
+(52, 'ITEC 343', 'ITEC 243', 'D'),
+(53, 'ITEC 443', 'ITEC 236', 'D'),
+(54, 'ITEC 443', 'ITEC 243', 'D'),
+(55, 'ITEC 345', 'ITEC 243', 'D'),
+(56, 'ITEC 445', 'ITEC 245', 'D'),
+(57, 'ITEC 445', 'ITEC 345', 'D'),
+(58, 'ITEC 269', 'ITEC 244', 'D');
 
 -- --------------------------------------------------------
 
@@ -783,6 +841,23 @@ CREATE TABLE IF NOT EXISTS `semester` (
   `date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `semester`
+--
+
+INSERT INTO `semester` (`semester_id`, `date_begin`, `date_end`) VALUES
+('201510', '2014-09-02', '2014-12-15'),
+('201520', '2015-01-19', '2015-05-03'),
+('201530', '2015-06-01', '2015-07-26'),
+('201610', '2015-09-01', '2015-12-07'),
+('201620', '2016-01-18', '2016-05-01'),
+('201630', '2016-05-31', '2016-07-04'),
+('201710', '2016-08-29', '2016-12-11'),
+('201720', '2017-01-23', '2017-05-07'),
+('201730', '2017-06-05', '2017-07-09'),
+('201810', '2017-09-04', '2017-12-17'),
+('201820', '2018-01-29', '2018-05-13');
+
 -- --------------------------------------------------------
 
 --
@@ -797,6 +872,14 @@ CREATE TABLE IF NOT EXISTS `student` (
   `program_id` int(11) NOT NULL,
   `campus_id` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`user_id`, `stu_fname`, `stu_lname`, `stu_status`, `program_id`, `campus_id`) VALUES
+('00052358', 'Nicholas', 'Singh', 'Part Time', 13, 'SGC'),
+('00055873', 'Earl', 'Tilluk', 'Full Time', 23, 'SSC');
 
 -- --------------------------------------------------------
 
@@ -941,12 +1024,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `advised_course`
 --
 ALTER TABLE `advised_course`
-  MODIFY `adv_course_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `adv_course_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `advisement`
 --
 ALTER TABLE `advisement`
-  MODIFY `advisement_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `advisement_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `department`
 --
@@ -956,12 +1039,12 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `prerequisite`
 --
 ALTER TABLE `prerequisite`
-  MODIFY `prereq_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+  MODIFY `prereq_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
 --
 -- AUTO_INCREMENT for table `program`
 --
