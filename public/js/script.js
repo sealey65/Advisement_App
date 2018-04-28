@@ -28,11 +28,24 @@ $(document).ready(function(){
 	 *
 	 * Show password toggle button
 	 **/
-	/*$('#inputpassword').hideShowPassword(false, 'focus', {
-    	toggle: {
-			className: 'btn btn-secondary show-btn'
-        }
-     }); */
+	$(".reveal").on('click',function() {
+    	var $pwd = $("#inputpassword");
+    	if ($pwd.attr('type') === 'password') {
+        	$pwd.attr('type', 'text');
+			$('.show-icon').removeClass('fa-eye');
+			$('.show-icon').addClass('fa-eye-slash');
+    	} else {
+        	$pwd.attr('type', 'password');
+			$('.show-icon').removeClass('fa-eye-slash');
+			$('.show-icon').addClass('fa-eye');
+			
+    	}
+	});
+	$("#inputpassword").on('focus', function(){
+		$(".reveal").show();
+	});
+	$(".reveal").hide();
+
 });
 
 /*$('#updateBtn').click(function() {
