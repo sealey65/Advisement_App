@@ -29,12 +29,6 @@
     
 }
 
-@media (max-height: 480px) {
-   footer.main-footer {
-        position: fixed;
-    }
-}
-
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767px) {
     
