@@ -31,8 +31,8 @@ class View {
                 For development, we will disable cache for twig.
                 For production, we should enable cache by using the follwing line instead
             */
-            $twig = new \Twig_Environment($loader);
-            //$twig = new \Twig_Environment($loader, array('cache' => dirname(__DIR__) . '/cache'));
+            //$twig = new \Twig_Environment($loader);
+            $twig = new \Twig_Environment($loader, array('cache' => dirname(__DIR__) . '/cache'));
             
             // make Auth data available in twig
             $twig->addGlobal('user', \App\Auth::getUser());
