@@ -13,15 +13,29 @@ class Login extends \Core\Controller {
         render the login page...
     */
     public function newAction() {
-        if(Auth::getUser()) {            
-            //Flash::addMessage('You are already signed in', Flash::INFO);            
-            $this->redirect('/home');
+        if(Auth::getUser()) {
+            
+            Flash::addMessage('You are already signed in', Flash::INFO);
+            
+            $this->redirect('/');
         
-        } else {            
-            View::render("/Login/login.html");        
+        } else {
+            
+            View::render("Login/login.html");
+        
         }
     }
-        
+    
+    
+    /*
+        Logout from the website
+    */
+    public function LogoutAction() {
+        Auth::logout();
+        // redirect via another request
+        $this->redirect('/login/logout-complete');
+    }
+    
     /*
         perform the task of logging in
         using session.
@@ -30,7 +44,7 @@ class Login extends \Core\Controller {
     public function createAction() {
         
         // try to authenticate
-        $user = User::authenticate($_POST['user_id'], $_POST['password']);
+        $user = User::authenticate($_POST['username'], $_POST['password']);
         
         // find if remember be checked  
         $remember_me = isset($_POST['remember_me']);
@@ -51,14 +65,29 @@ class Login extends \Core\Controller {
             Flash::addMessage('Login Failed, invalid username or password.', Flash::DANGER);            
             
             View::render("Login/login.html", [ 
-                'username' => $_POST['user_id'],
+                'username' => $_POST['username'],
                 'remember_me' => $remember_me
             ]);
             
         }
     }
     
-  
+    
+    /*
+        redirect to home page when logged out
+        this is a second redirect which creates a new session
+        after the last session was destroyed by Auth::logout()
+        
+        If we didn't double redirect, then the flash message
+        would not be shown, it would have been destroyed.
+    */
+    public function logoutCompleteAction() {
+        
+        Flash::addMessage('You have just signed out');
+        
+        $this->redirect('/'); 
+    }
+    
     
     
     
