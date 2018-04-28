@@ -41,7 +41,7 @@ class User extends \Core\Model {
             // hash the password, with salt etc. php password_hash does this for us
             $password_hash = password_hash($this->pword, PASSWORD_DEFAULT);
 
-            $sql = 'INSERT INTO users ( user_id, user_email, password_hash, role_name ) 
+            $sql = 'INSERT INTO user ( user_id, user_email, password_hash, role_name ) 
                             VALUES ( :user_id, :email, :pword, :role)';
             
             $db = static::getDB();
@@ -98,7 +98,7 @@ class User extends \Core\Model {
         Given an email address, get a user class containing a user's information
     */
     public static function findByEmail($email) {
-        $sql = 'SELECT * FROM users WHERE user_email = :email';
+        $sql = 'SELECT * FROM user WHERE user_email = :email';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -121,7 +121,7 @@ class User extends \Core\Model {
     */
     public static function findByID($user_id) {
         
-        $sql = 'SELECT * FROM users WHERE user_id = :user_id';
+        $sql = 'SELECT * FROM user WHERE user_id = :user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         
@@ -139,7 +139,7 @@ class User extends \Core\Model {
     */
     public static function findByUsername($username) {
         
-        $sql = 'SELECT * FROM users WHERE username = :username';
+        $sql = 'SELECT * FROM user WHERE username = :username';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         
