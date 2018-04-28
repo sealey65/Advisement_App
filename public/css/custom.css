@@ -1,13 +1,28 @@
 /* custom styles go here */
-.log-page{
-	float:right;
+.background{
+	position:absolute;
 	width:100%;
-  	top: 40%;
-	right:5%;
-	left:0;
-  	-webkit-transform: translateY(40%);
-  	-ms-transform: translateY(40%);
-  	transform: translateY(40%);
+	height:100%;
+  	background-size:cover;
+	background-image: url('../img/bg-img.jpg');
+}
+.overlay{
+	top:11%;
+	height:70%;
+  	background-color: #fff;
+	opacity:0.3;
+}
+.log-page{
+	margin: 0 auto;
+	width:100%;
+  	min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  	min-height: 100vh; /* These two lines are counted as one :-)       */
+	display: -webkit-box;
+  	display: -moz-box;
+  	display: -ms-flexbox;
+  	display: -webkit-flex;
+  	display: flex; 
+	justify-content: center;
 }
 
 .btn{
