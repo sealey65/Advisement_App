@@ -1,22 +1,6 @@
 # Advise Me! 
 
 Costaatt Advisement Web Application
-
-see [Wiki on Github](https://github.com/EarlTilluck/Advisement_App/wiki) for more details
-
-## Contributing
-Email: earltilluck@hotmail.com with the following information 
-* Github account username 
-* Your actual name 
-
-
-## Teams
-
-* SQL Queries: Stacy, Kafra, Derek
-* DB Design: Katrina, Amanda
-* CSS Design: Shaquille, Adrien, Nicholas
-* Supervisor: Earl
- 
  
 ## Getting Started
 
@@ -54,11 +38,13 @@ Things to remember:
 * Enable twig cache in ```Core/View.php``` for speed up.
 
 
-## Built With
+## Teams
 
-* [PHP 7](http://php.net/) - Server Side Scripting
-* [MySQL](https://www.mysql.com/) - Database
-* [Bootstrap](https://getbootstrap.com/) - Bootstrap
+* SQL Queries: Stacy, Kafra, Derek
+* DB Design: Katrina, Amanda
+* CSS Design: Shaquille, Adrien, Nicholas
+* Supervisor: Earl
+
 
 ## License
 see LICENSE.md for details
