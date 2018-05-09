@@ -1,52 +1,83 @@
 {% extends "base.html" %}
-
 {% block title %}Advisement{% endblock %}
+
+{#
+    actions for student:
+
+        add, edit, remove course code on advisement - only when advisement open
+        add, edit, remove grade on advisement - anytime
+
+        add, remove their own chat for advisement, only when open
+
+    actions for advisor:
+
+        add, edit, remove, approve course code on advisement - only when advisement open
+
+        add, remove their own chat for advisement, only when open 
+#}
+
 
 {% block body %}
     <h1 class="text-center">Advisement</h1>
 
 
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Button with data-target
-  </button>
-<div class="collapse" id="collapseExample">
-  <div class="card card-body">
-    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-  </div>
-</div>
+  
 
-
+    
     <div class="row">
-  <div class="col-4">
-    <div class="list-group" id="list-tab" role="tablist">
-      <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-      <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-      <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+        <div class="col-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                {% for adv in advisements %}
+                    <a class="list-group-item list-group-item-action {% if loop.first %}active{% endif %}" id="list-{{adv.semester_id}}-list" data-toggle="list" href="#list-{{adv.semester_id}}" role="tab" aria-controls="semester">
+                        {{adv.semester_id}}
+                    </a>
+                {% endfor %} 
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="tab-content" id="nav-tabContent">
+                {% for adv in advisements %}
+                    <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="list-{{adv.semester_id}}" role="tabpanel" aria-labelledby="list-{{adv.semester_id}}-list">
+                        <h2>{{adv.date_begin}}-{{adv.date_begin}}</h2>
+                        {% for c in adv.advised_courses %}
+                            <p>
+                                {{c.course_code}}, {{c.status}}, {{c.grade}} 
+                                <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#edit-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
+                                    Edit
+                                </button>
+                            </p>
+                            <div class="collapse" id="edit-course-{{c.course_code|replace({' ':_,})}}">
+                                <div class="card card-body">
+                                    <form>
+                                        edit form goes here for each course.
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#chat-{{adv.advisement_id}}" aria-expanded="false" aria-controls="chat-{{adv.advisement_id}}">
+                            View Chat
+                        </button>
+                        <div class="collapse" id="chat-{{adv.advisement_id}}">
+                            <div class="card card-body">
+                                <form>
+                                    form to update chats
+                                </form>
+                                {% for p in adv.posts %}
+                                    <div>
+                                        <h3>{{p.stu_fname}} {{p.stu_lname}}{{p.adv_fname}} {{p.adv_lname}}, {{p.post_id}}, {{p.post_date}}</h3>
+                                        <p>{{p.content}}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-8">
-    <div class="tab-content" id="nav-tabContent">
-      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
-      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
-      <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
-      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
-    </div>
-  </div>
-</div>
-    {% for adv in advisements %}
-        <p>{{adv.advisement_id}}</p>
-        {% for course in adv.advised_courses %}
-            <p>{{course.course_code}}</p>
-        {% endfor %}
-        {% for post in adv.posts %}
-            <p>{{post.content}}</p>
-        {% endfor %}
-
-    {% endfor %}
-
-
 {% endblock %}
 
 {% block final %}
+
+
 {% endblock %}
