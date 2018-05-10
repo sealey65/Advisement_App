@@ -20,7 +20,7 @@ class Login extends \Core\Controller {
             
             // redirect to different pages based on role
             if( strcasecmp($user->role_name, 'student') == 0 ) {
-                $this->redirect('/advisement');
+                $this->redirect('/advisements/'.$user->user_id.'/view');
                 
             }
             if( strcasecmp($user->role_name, 'advisor') == 0 ) {

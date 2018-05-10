@@ -40,6 +40,7 @@ class Advisement extends \Core\Model {
             JOIN advised_course USING (advisement_id)
             JOIN post USING (advisement_id)
             JOIN semester USING (semester_id)
+            JOIN course USING (course_code)
             LEFT JOIN student USING (user_id)
             LEFT JOIN advisor USING (user_id)
             WHERE student = :user_id
@@ -69,6 +70,7 @@ class Advisement extends \Core\Model {
                     'semester_id' => $row['semester_id'],
                     'date_begin' => $row['date_begin'],
                     'date_end' => $row['date_end'],
+                    'is_open' => $row['is_open'],
                     'posts' => [],
                     'advised_courses' => [] 
                 ];
@@ -89,9 +91,10 @@ class Advisement extends \Core\Model {
             if (!isset($advisements[$row['advisement_id']]['advised_courses'][$row['advised_course_id']])){
                 $advisements[$row['advisement_id']]['advised_courses'][$row['advised_course_id']] = [
                     'course_code' => $row['course_code'],
-                    'status' => $row['status'],
+                    'approved' => $row['approved'],
                     'type' => $row['type'],
-                    'grade' => $row['grade']
+                    'credit_hours' => $row['credit_hours'],
+                    'course_name' => $row['course_name']
                 ];
             }
             
@@ -103,8 +106,83 @@ class Advisement extends \Core\Model {
         
     }
     
+    public function addNewCourse() {
+        /*
+            expected data:
+            advisement_id
+            new_course
+            new_type
+            checkbox new_approved
+        */
+        
+        $this->validateCourse();
+        
+        if (empty($this->errors)) {
+            
+            $approved = false;
+            if(isset($this->new_approved)) {
+                $approved = true;
+            }
+
+            $sql = 'INSERT INTO advised_course ( course_code, advisement_id, approved, type) 
+                            VALUES ( :course_code, :advisement_id, :approved, :type)';
+            
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            
+            $this->new_course = strtoupper($this->new_course);
+
+            $stmt->bindValue(':course_code', $this->new_course, PDO::PARAM_STR);
+            $stmt->bindValue(':advisement_id', $this->new_advisement_id, PDO::PARAM_INT);
+            $stmt->bindValue(':approved',$approved, PDO::PARAM_BOOL);
+            $stmt->bindValue(':type', $this->new_type, PDO::PARAM_STR);
+            
+            return $stmt->execute();
+            
+        }
+        return false;
+        
+        
+    }
+    
+    public function validateCourse() {
+        if (static::courseExists($this->new_course) == false) {
+            $this->errors[] = 'The Course specified does not exist.';
+        }        
+    }
     
     
+    
+    /*
+        get semester for advisement
+    */
+    public static function findCourseByCode($course_code) {
+        
+        $sql = "
+            SELECT * 
+            FROM course
+            WHERE course_code = :course_code";
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        
+        $stmt->bindParam(':course_code', $course_code, PDO::PARAM_STR);
+        
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+            
+        $stmt->execute();
+        
+        return $stmt->fetch();
+        
+    }
+    
+    
+    /*
+        find if email exits in database 
+    */
+    public static function courseExists($course_code) {
+        return static::findCourseByCode($course_code)  !== false;        
+    }
     
 }// end class
 
