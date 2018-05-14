@@ -145,6 +145,7 @@ class Advisement extends \Core\Model {
         
     }
     
+    
     public function validateCourse() {
         if (static::courseExists($this->new_course) == false) {
             $this->errors[] = 'The Course specified does not exist.';

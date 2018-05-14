@@ -43,7 +43,7 @@
                         <h3>Advisment is {%if adv.is_open%}open{% else %}closed{% endif %}</h3>
                         {% for c in adv.advised_courses %}
                             <p>
-                                {{c.course_code}}, {{c.course_name}} {{c.approved}}, {{c.grade}} 
+                                {{c.course_code}}, {{c.course_name}} {{c.approved}}
                                 <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#edit-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
                                     Edit
                                 </button>

@@ -24,7 +24,7 @@ class Login extends \Core\Controller {
                 
             }
             if( strcasecmp($user->role_name, 'advisor') == 0 ) {
-                $this->redirect('/advisor');
+                $this->redirect('/advisor/view');
                 
             }
             if( strcasecmp($user->role_name, 'admin') == 0 ) {
@@ -107,6 +107,7 @@ class Login extends \Core\Controller {
     }
     
     
+   
     
     
 }// end class

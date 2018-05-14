@@ -49,7 +49,7 @@ class Error {
         
         
         // only if internal error and not 404 are we interesting in logging or viewing
-        if ($code == 500) {
+        if ($code == 500 || $code == 404) { // remove 'or 404'
             
             // display error on page.
             if (\App\Config::SHOW_ERRORS) {
