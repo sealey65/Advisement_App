@@ -12,7 +12,10 @@
 
 {% block body %}
     <h1 class="text-center">Student List</h1>
-    <div>
+    <div id="search-error">
+        
+    </div>
+    <div id="search">
         <input type="textbox" id="search-for"> 
         <button id="on-search-for">search</button>
         <button id="on-revert">revert</button>
@@ -35,6 +38,21 @@
             
     {% endfor %}
 
+    {# to test performance of javascript search with high number of students, disable this twig comment...
+
+    {% for i in range(0, 3000) %}
+        <div class="card adv ">
+            <div class="card-body">
+                <p>
+                    <a href="/advisements/00055873/view">00055873, Earl Tilluck</a>
+                        <span data-toggle="tooltip" data-placement="top" title="Changes have been made to this advisement" class="badge badge-danger">!</span>
+                        <span data-toggle="tooltip" data-placement="top" title="Student's advisement belongs to you." class="badge badge-success">owned</span>
+                </p>
+            </div>
+        </div>
+
+    {% endfor %}
+    #}
 
 
 {% endblock %}
@@ -46,13 +64,20 @@
             // toggle the tooltips (bootstrap)
             $('[data-toggle="tooltip"]').tooltip();
             
-            
             // search for button, only shows links for input
             $('#on-search-for').click(function() {
-                val = '.' + $('#search-for').val().toLowerCase();
-                $('.adv').hide();
-                $(val).show();
-                console.log('search...');
+                val = $('#search-for').val();
+                if (val != '') {
+                    val = '.' + val.toLowerCase();
+                    $('.adv').hide();
+                    $(val).show();
+                } else {
+                    err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">' 
+                        + 'Please enter a student id or name when searching'
+                        + '<button type="button" class="close" data-dismiss="alert"' 
+                        + 'aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+                    $('#search-error').append(err);
+                }
             });
             
             // revert button, shows all content
