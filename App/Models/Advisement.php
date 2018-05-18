@@ -145,12 +145,74 @@ class Advisement extends \Core\Model {
         
     }
     
+    public function updateCourse() {
+        /*
+            expected data:
+            advisement_id
+            old_course
+            change_course            
+        */
+        
+        //$this->validateCourse();
+        
+        if (empty($this->errors)) {            
+            
+            $sql = 'UPDATE advised_course SET course_code= :new_course WHERE advisement_id = :advisement_id AND course_code = :old_course';
+            
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            
+            $this->change_course = strtoupper($this->change_course);
+
+            $stmt->bindValue(':old_course', $this->old_course, PDO::PARAM_STR);
+            $stmt->bindValue(':advisement_id', $this->edit_advisement_id, PDO::PARAM_INT);
+            $stmt->bindValue(':new_course',$this->change_course, PDO::PARAM_STR);
+            
+            return $stmt->execute();
+            
+        }
+        return false;        
+        
+    }
+    
+    public function removeCourse(){
+        /*
+            expected data:
+            advisement_id
+            courseCode           
+        */
+        if (empty($this->errors)) {
+            
+            if($this->radioRemove!="Yes"){
+                return false;
+            }else{
+               $sql = 'DELETE FROM advised_course  WHERE advisement_id = :advisement_id AND course_code = :old_course';
+            
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+            
+                //$this->change_course = strtoupper($this->change_course);
+
+                $stmt->bindValue(':old_course', $this->courseCode, PDO::PARAM_STR);
+                $stmt->bindValue(':advisement_id', $this->edit_advisement_id, PDO::PARAM_INT);
+            
+                return $stmt->execute(); 
+            }
+            
+            
+            
+        }
+        return false; 
+        
+    }
+    
     
     public function validateCourse() {
         if (static::courseExists($this->new_course) == false) {
             $this->errors[] = 'The Course specified does not exist.';
         }        
     }
+    
     
     
     
