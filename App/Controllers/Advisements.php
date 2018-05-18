@@ -47,7 +47,30 @@ class Advisements extends Authenticated {
         $this->redirect('/advisements/'.$advisement->new_student.'/view');
     }
     
+    
+    public function updateCourseAction() {
+        $advisement = new Advisement($_POST);
+        if ($advisement->updateCourse()) {
+            // nothing
+        } else {
+            foreach ($advisement->errors as $error) {
+                Flash::addMessage($error, Flash::DANGER);
+            }
+        }
+        $this->redirect('/advisements/'.$advisement->new_student.'/view');
+    }
    
+    public function removeCourseAction() {
+        $advisement = new Advisement($_POST);
+        if ($advisement->removeCourse()) {
+            // nothing
+        } else {
+            foreach ($advisement->errors as $error) {
+                Flash::addMessage($error, Flash::DANGER);
+            }
+        }
+        $this->redirect('/advisements/'.$advisement->new_student.'/view');
+    }
     
    
 }// end class
