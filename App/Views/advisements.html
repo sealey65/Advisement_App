@@ -47,18 +47,58 @@
                                 <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#edit-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
                                     Edit
                                 </button>
+                                <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#remove-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
+                                    Remove
+                                </button>
                             </p>
                             <div class="collapse" id="edit-course-{{c.course_code|replace({' ':_,})}}">
                                 <div class="card card-body">
                                     {% if adv.is_open %}
-                                        <form method="Post" action="advisement/update-course" class="form-course-edit">
-                                            edit form goes here for each course.
+                                        <form method="Post" action="/advisements/update-course" class="form-course-edit">
                                             <div class="form-group-material" id="input">    
-                                                <input id="inputpassword" type="password" name="password" required class="input-material">
-                                                <label for="inputpassword" class="label-material" id="passwordLabel">Password</label>
+                                                <input id="input" type="text" name="change_course" required class="input-material">
+                                                <label for="input" class="label-material" id="changeCourseLabel">Course Code</label>
                                                 <small class="error-holder"></small>
+                                                
                                             </div>
-                                        </form>
+                                            <input type="hidden" name="edit_advisement_id" value="{{adv.advisement_id}}">
+                                            <input type="hidden" name="old_course" value="{{c.course_code}}">
+                                             <input type="hidden" name="new_student" value="{{adv.student}}">
+                                            <div class="form-group">       
+                                                <input type="submit" value="Submit" class="btn btn-danger">
+                                            </div>
+                                        </form>                                        
+                                    {% else %}
+                                        <p>Course Locked</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="collapse" id="remove-course-{{c.course_code|replace({' ':_,})}}">
+                                <div class="card card-body">
+                                    {% if adv.is_open %}
+                                        <form method="Post" action="/advisements/remove-course" class="form-course-remove">
+                                            <div class="form-group-material" id="input">    
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="radioRemove" id="radioYes" value="Yes">
+                                                    <label class="form-check-label" for="radioYes">
+                                                        Yes
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="radioRemove" id="radioNo" value="No">
+                                                    <label class="form-check-label" for="exampleRadios2">
+                                                        No
+                                                    </label>
+                                                    <small class="error-holder"></small>
+                                                </div>
+                                                <input type="hidden" name="edit_advisement_id" value="{{adv.advisement_id}}">
+                                                <input type="hidden" name="courseCode" value="{{c.course_code}}">
+                                                <input type="hidden" name="new_student" value="{{adv.student}}">
+                                                <div class="form-group">       
+                                                    <input type="submit" value="Submit" class="btn btn-danger">                                             
+                                                </div>
+                                            </div>
+                                        </form>                                        
                                     {% else %}
                                         <p>Course Locked</p>
                                     {% endif %}
