@@ -55,17 +55,17 @@
 					<h5 class="sidenav-heading">Main</h5>
 					<ul id="side-main-menu" class="side-menu list-unstyled">                  
 						<li><a href="/"> <i class="icon-home"></i>Home</a></li>
+						<li><a href="/home/profile"> <i class="fa fa-user-circle"></i>Profile</a></li>
 						{% if user.role_name == 'Admin' %}
 							<li><a href="/home/new"> <i class="fa fa-plus-square"></i>Add A User</a></li>
-							<li><a href="#"> <i class="fa fa-minus-square"></i>Delete A User</a></li>
+							<li><a href="/home/deleteUser"> <i class="fa fa-minus-square"></i>Delete A User</a></li>
 							<li><a href="/home/semester"> <i class="fa fa-calendar"></i>Semester</a></li>
 						{% endif %}
-						{% if user.role_name == 'Student' or user.role_name == 'Advisor'%}
-							<li><a href="/home/profile"> <i class="fa fa-user-circle"></i>Profile</a></li>
-							<li><a href="#"> <i class="fa fa-exchange"></i>Advisement</a></li>
+						{% if user.role_name == 'Student' or user.role_name == 'Advisor'%}							
+							<li><a href="/home/advisement"> <i class="fa fa-exchange"></i>Advisement</a></li>
 						{% endif %}
 						{% if user.role_name == 'Student' %}						
-							<li><a href="#"> <i class="fa fa-graduation-cap"></i>Degree</a></li>												
+							<li><a href="/home/degree"> <i class="fa fa-graduation-cap"></i>Degree</a></li>										
 						{% endif %}
 						<li><a href="#dropdownDropdown" aria-expanded="false" data-toggle="collapse"> 
 							<i class="icon-interface-windows"></i>dropdown if needed 
