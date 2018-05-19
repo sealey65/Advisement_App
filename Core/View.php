@@ -38,7 +38,10 @@ class View {
             $twig->addGlobal('user', \App\Auth::getUser());
             $twig->addGlobal('flash_messages', \App\Flash::getMessages());
             $twig->addGlobal('view', $view);
-            
+			$twig->addGlobal('campus', \App\Auth::getCampus());
+			$twig->addGlobal('dept', \App\Auth::getDept());
+			$twig->addGlobal('programme', \App\Auth::getProgramme());
+            $twig->addGlobal('semester', \App\Auth::getSemester());
         }
         
         // load the template

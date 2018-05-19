@@ -8,6 +8,8 @@ namespace Core;
     Controllers created by developers will inherit this class
 
 */
+use \App\Auth;
+use \App\Flash;
 
 abstract class Controller {
 
