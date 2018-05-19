@@ -4,7 +4,7 @@
     	<meta charset="utf-8">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		
-    	<title>Advise Me: {% block title %}{% endblock %}</title>
+    	<title>Advise Me | {% block title %}{% endblock %}</title>
 		
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,19 +22,18 @@
 		<!-- Custom Scrollbar-->
 		<link rel="stylesheet" href="/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
 		<!-- theme stylesheet-->
-		<link rel="stylesheet" href="/css/style.default.css" id="theme-stylesheet">
+		<link rel="stylesheet" href="/css/style.blue.css" id="theme-stylesheet">
 		
-		<!-- Custom stylesheet -->
-		<link rel="stylesheet" href="/css/style.css">
+		<!-- Custom stylesheet -->		
 		<link rel="stylesheet" href="/css/custom.css">
+		<link rel="stylesheet" href="/css/style.css">
 		<!-- Favicon-->
-		<link rel="shortcut icon" href="img/favicon.ico">
+		<link rel="shortcut icon" href="/img/logo-icon.png">
 		<!-- Tweaks for older IEs--><!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 	</head>
   	<body>
-
 		
 		{% if user %}			
     	<!-- Side Navbar -->		
@@ -48,7 +47,7 @@
 					</div>
 					<!-- Small Brand information, appears on minimized sidebar-->
 					<div class="sidenav-header-logo">
-						<a href="/" class="brand-small text-center"> <strong>A</strong><strong class="text-primary">M</strong></a>
+						<a href="/" class="brand-small text-center"><img class="side-logo" src="../img/logo-icon.png" /><!--<strong>A</strong><strong class="text-primary">M</strong>--></a>
 					</div>
 				</div>
 				<!-- Sidebar Navigation Menus-->
@@ -57,10 +56,17 @@
 					<ul id="side-main-menu" class="side-menu list-unstyled">                  
 						<li><a href="/"> <i class="icon-home"></i>Home</a></li>
 						{% if user.role_name == 'Admin' %}
-							<li><a href="/home/new"> <i class="icon-form"></i>Add A User</a></li>
+							<li><a href="/home/new"> <i class="fa fa-plus-square"></i>Add A User</a></li>
+							<li><a href="#"> <i class="fa fa-minus-square"></i>Delete A User</a></li>
+							<li><a href="/home/semester"> <i class="fa fa-calendar"></i>Semester</a></li>
 						{% endif %}
-						<li><a href="#"> <i class="fa fa-bar-chart"></i>Another tab</a></li>
-						<li><a href="#"> <i class="icon-grid"></i>Another tab</a></li>
+						{% if user.role_name == 'Student' or user.role_name == 'Advisor'%}
+							<li><a href="/home/profile"> <i class="fa fa-user-circle"></i>Profile</a></li>
+							<li><a href="#"> <i class="fa fa-exchange"></i>Advisement</a></li>
+						{% endif %}
+						{% if user.role_name == 'Student' %}						
+							<li><a href="#"> <i class="fa fa-graduation-cap"></i>Degree</a></li>												
+						{% endif %}
 						<li><a href="#dropdownDropdown" aria-expanded="false" data-toggle="collapse"> 
 							<i class="icon-interface-windows"></i>dropdown if needed 
 							</a>
@@ -84,12 +90,48 @@
 								<a id="toggle-btn" href="#" class="menu-btn"><i class="icon-bars"> </i></a>
 								<a href="/" class="navbar-brand">
 									<div class="brand-text d-none d-md-inline-block">
-										<span>Advise</span><strong class="text-primary">Me</strong>
+										<span class="main-logo"><img src="../img/Advisemelogo-01.png" /></span>
+										<!--<span>Advise</span><strong class="text-primary">Me</strong>-->
 									</div>
 								</a>
 							</div>
               				<ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-                
+                				  <!-- Messages dropdown-->
+								<li class="nav-item dropdown">
+									<a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-envelope"></i>
+										<span class="badge badge-info">
+											{% for adv in advisements %}
+												{% set count=0 %}
+												{% for p in adv.posts if p.is_new %}
+													{% set count = count + 1 %}
+													
+												{% endfor %}
+											{{count}}
+										{% endfor %}
+										</span></a>
+									<ul aria-labelledby="notifications" class="dropdown-menu">
+										{% for adv in advisements %}
+											{% set id = "" %}
+											{% for posts in adv.posts if posts.is_new %}													
+												{% if posts.post_date >= id %}
+													{% set id = posts.post_date %}
+													<li>
+														<a rel="nofollow" href="#" class="dropdown-item d-flex"> 
+															<div class="msg-profile"><img src="../img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle"></div>
+															<div class="msg-body">
+																<h3 class="h5">{{posts.stu_fname}} {{posts.stu_lname}}</h3><span>{{posts.content}}</span><small>{{posts.post_date}}</small>
+															</div>
+														</a>
+													</li>
+												{% endif %}
+												{% set id = posts.post_date %}
+											{% endfor %}
+										{% endfor %}
+										<li>
+											<a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong> <i class="fa fa-envelope"></i>Read all messages    </strong></a>
+										</li>
+									</ul>
+								</li>
                 				<!-- Log out-->
                 				<li class="nav-item"><a href="/logout" class="nav-link logout"> 
 									<span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a>
@@ -107,7 +149,21 @@
             			</button>
             		</div>	
 				{% endfor %}
-			{% else %}			
+					
+				<footer class="main-footer">
+					<div class="container-fluid">
+						<div class="row">						
+							<div class="col-sm-6">
+								<a href="https://www.costaatt.edu.tt"><img src="/img/CostaattW-01.png" /></a>
+							</div>
+							<div class="col-sm-6 text-right">
+								<p>Design by ITEC445 Scripting for System Administrators</p>
+								<p class="copyright">Costatt &copy; 2018. All rights reserved</p>
+							</div>
+						</div>
+					</div>
+				</footer>
+				{% else %}
 				{% for message in flash_messages %}
 					<div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
             			{{message.body}}
@@ -120,27 +176,13 @@
 			
 			{% block body %}
 			{% endblock %}
-			
-			<footer class="main-footer">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-sm-6">
-              				<p>Costatt &copy; 2018</p>
-            			</div>
-            			<div class="col-sm-6 text-right">
-              				<p>Design by ITEC445 Scripting for System Administrators</p>
-             
-						</div>
-					</div>
-				</div>
-			</footer>
+	
 		</div>
 		
 	  
 		<!-- JavaScript files-->
 		<script src="/js/jquery-3.3.1.min.js"></script>
 		<script src="/js/jquery.validate.min.js"></script>
-		<script src="/js/hideShowPassword.min.js"></script>
 		
 		<script src="/vendor/popper.js/umd/popper.min.js"> </script>
 		<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>

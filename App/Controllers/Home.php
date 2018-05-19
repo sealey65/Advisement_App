@@ -4,59 +4,36 @@ namespace App\Controllers;
 
 use Core\View;
 use \App\Models\User;
+use \App\Models\Advisement;
 use \App\Auth;
 use \App\Flash;
 
-class Home extends \Core\Controller {
-
+class Home extends Authenticated {
     
-    /*
-        Before and After methods
-        Action filters
-    */
-    
-    protected function before() {
-        //echo "before ";
-        //return false;
-    }
-    
-    protected function after() {
-        //echo " after";
-    }
-    
-    public function indexAction() {
-        View::render("home/index.html", []);
-    }
-	
-	 public function newAction() {
-         View::render("home/addUser.html", []);
-    }
-	
-	
-	public function createAction(){
-		$user = new User($_POST);
-			
-		if($user->save()){
-				
-			$this->redirect('/home/success');
-				
+    public function indexAction() {	
+		$user = Auth::getUser();
+		if($user){	
+			$advisements = Advisement::getAdvisements($user->user_id);
+			View::render("Home/index.html", ['advisements' => $advisements]);
 		}else{
-			View::render("home/addUser.html", ['user' => $user]);
+			View::render('Login/index.html');	
 		}
 	}
-		
-		/**
-		 * Show the signup success page
-		 *
-		 * @return void
-		 **/
-		public function successAction(){			
-			View::render("home/success.html");
-			header("Refresh:5; url=/");
-		}
 	
+	public function newAction() {
+        View::render("Admin/addUser.html", []);
+    }
 	
-	
+	public function semesterAction() {
+        View::render("Admin/semester.html", []);
+    }
+	public function profileAction() {
+        View::render("Student/profile.html", []);
+    }
+	public function successAction(){			
+		View::render("Home/success.html");
+		header("Refresh:5; url=/");
+	}
       /**
 	  * Log out the user
 	  * 

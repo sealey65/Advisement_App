@@ -94,6 +94,26 @@ class Auth {
             
         }
     }
+	public static function getCampus(){
+		if(isset($_SESSION['user_id'])){
+			return User::getCampus();
+		}
+	}
+	public static function getDept(){
+		if(isset($_SESSION['user_id'])){
+			return User::getDept();
+		}
+	}
+	public static function getProgramme(){
+		if(isset($_SESSION['user_id'])){
+			return User::getProgramme();
+		}
+	}
+	public static function getSemester(){
+		if(isset($_SESSION['user_id'])){
+			return User::getSemester();
+		}
+	}
     
     /*
         if cookie is set (remember me), then get user it belongs to

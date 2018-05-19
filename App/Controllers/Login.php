@@ -37,7 +37,6 @@ class Login extends \Core\Controller {
         
         // if authenticated...
         if ($user) {
-            
             // perform login, with remember me 
             Auth::login($user, $remember_me);
             
