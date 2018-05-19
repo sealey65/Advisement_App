@@ -59,11 +59,11 @@ $router->add('{controller}/{action}');
 // url/controller/99/action
 $router->add('{controller}/{id:\d+}/{action}');
 // single action controllers
+$router->add('/', ['controller' => 'Login', 'action' => 'new']);
 $router->add('', ['controller' => 'Login', 'action' => 'new']);
 $router->add("logout", ['controller' => 'Home', 'action' => 'destroy']);
 
 $router->add('home', ['controller' => 'Home', 'action' => 'index']);
-
 /*
     Get URL -> Route to Controller -> Dispatch View
 */ 

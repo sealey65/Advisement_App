@@ -23,6 +23,23 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	$('#addUserForm').validate({
+		rules:{
+			user_id:"required",
+			email: {
+				required: true,
+				email: true,
+				remote: '/account/validate-email'
+			},
+			pword: {
+				required: true,
+				minlength: 6,
+				validPassword: true
+			},
+			role:"required"
+		}
+	});
 
 	/**
 	 *
@@ -45,8 +62,34 @@ $(document).ready(function(){
 		$(".reveal").show();
 	});
 	$(".reveal").hide();
+	
+	/**
+ 	 * Hide and Show campus for adding a new user
+ 	 **/
+    $("#role").change(function(){
+    	if ($(this).val()=="Advisor" || $(this).val()=="Student"){
+        	$('.campus').show();
+			if($(this).val()=="Advisor"){
+				$('#dept-program-label').html('Department');
+				$('#dept').show();
+				$('#status').hide();
+				$('#program').hide();
+			}else{
+				$('#dept-program-label').html('Programme');
+				$('#program').show();
+				$('#status').show();
+				$('#dept').hide();
+			}
+      	}
+     	else{
+          	$('.campus').hide();
+	 	}
+	});
 
 });
+
+
+
 
 /*$('#updateBtn').click(function() {
     $.ajax({
