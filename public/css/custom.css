@@ -126,15 +126,27 @@ footer.main-footer p{
   width: 100%;
   min-width: 360px;
  /* max-width: 1200px;*/
-  height: 79.8vh;
+  height: 77.5vh;
   min-height: 300px;
   max-height: 720px;
   background: #E6EAEA;
 }
+@media (max-width: 1199px){
+	#frame {
+    	width: 100%;
+    	height: 71.1vh;
+	}
+}
+@media screen and (max-width: 735px) {
+  #frame {
+    width: 100%;
+    height: 68.9vh;
+  }
+}
 @media screen and (max-width: 360px) {
   #frame {
     width: 100%;
-    height: 100vh;
+    height: 71.8vh;
   }
 }
 #frame #sidepanel {
@@ -613,7 +625,8 @@ footer.main-footer p{
 }
 @media screen and (max-width: 735px) {
   #frame .content {
-    width: calc(100% - 80px);
+	  width: calc(100% - 80px);
+	  /*height: calc(100% - 35px);*/
     min-width: 280px !important;
   }
 }
