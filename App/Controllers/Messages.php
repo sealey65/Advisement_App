@@ -59,13 +59,12 @@ class Messages extends Authenticated {
 	}
 	public function addMessage(){
 		$message = $_GET['view_conversation'];
-		$text = $_POST['reply'];
+		$subject = $_GET['subject'];
 		
 		if($message){
-			$user = User::replyToMessage($message, $text);
-			
-			if($user){
-				static::viewConversation();
+			$user = $user = new User($_POST);		
+			if($user->replyToMessage($message)){
+				$this->redirect('/Messages/viewConversation&view_conversation='.$message.'&subject='.$subject.'');
 			}else{
 				Flash::addMessage('There was an error in sending your message');
 				$this->redirect('/Home/inbox');

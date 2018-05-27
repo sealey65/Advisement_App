@@ -357,10 +357,6 @@ class User extends \Core\Model {
 	/**
 	 * Send a message to another user
 	 *
-	 * @param $to
-	 * @param $subject
-	 * @param $body
-	 *
 	 * @return void
 	 */
 	public function sendMessage(){
@@ -412,6 +408,13 @@ class User extends \Core\Model {
        } 
 	}
 	
+	/**
+	 * Get the user that the message is being sent to
+	 *
+	 * @param $user user id to send message to
+	 *
+	 * @return User user id of user
+	 * */
 	public static function getSendTo($user){
 			$db = static::getDB();
 			$sql= "SELECT user_id FROM user WHERE user_id = :user_id";
@@ -561,7 +564,7 @@ class User extends \Core\Model {
 		return $stmt->execute();
 	}
 	
-    public static function replyToMessage($conversation_id, $text){
+    public function replyToMessage($conversation_id){
 		
 		$user = $_SESSION['user_id'];
 		
@@ -571,7 +574,7 @@ class User extends \Core\Model {
 		
 		$stmt = $db->prepare($sql);
 		
-		$stmt->bindParam(':reply', $text, PDO::PARAM_STR);
+		$stmt->bindParam(':reply', $this->reply, PDO::PARAM_STR);
 		
 		$stmt->execute();
 			

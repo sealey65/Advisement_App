@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use Core\View;
 use \App\Models\User;
-use \App\Models\Chat;
 use \App\Models\Advisement;
 use \App\Auth;
 use \App\Flash;
