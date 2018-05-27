@@ -114,6 +114,11 @@ class Auth {
 			return User::getSemester();
 		}
 	}
+	public static function getMessages(){
+		if(isset($_SESSION['user_id'])){
+			return User::getConversation();
+		}
+	}
     
     /*
         if cookie is set (remember me), then get user it belongs to

@@ -1,0 +1,37 @@
+{% extends "Chat/inbox.html" %}
+
+{% block title %}Inbox{% endblock %}
+
+		{% block messages %}
+
+	<form action="/Messages/send" method="post">
+		<div class="contact-profile">
+			<input class="form-control" type="text" name="to" id="to" placeholder="To: Type the ID of a person"/>
+			<input class="form-control" type="text" name="subject" id="subject" placeholder="Subject: Type the Subject of the Message"/>
+		</div>
+		<div class="messages">			
+			<ul>
+				{% for messages in allMessages %}
+					{% if messages.username == user.user_id %}
+						<li class="replies">
+							<img src="/img/avatar-1.jpg" alt="" />
+							<p><span>{{messages.text}} </span> <span class="date"> {{ messages.date | date('h:i a')}}</span></p>
+						</li>
+						{% else %}
+						<li class="sent">
+							<img src="/img/avatar-2.jpg" alt="" />
+							<p><span>{{messages.text}}</span> <span class="date"> {{ messages.date | date('h:i a')}}</span></p>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="message-input">
+			<div class="wrap">	
+					<input type="text" name="body" placeholder="Write your message..." />
+					<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+					<button type="submit" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>			
+			</div>
+		</div>
+	</form>
+{% endblock %}

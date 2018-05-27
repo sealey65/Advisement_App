@@ -42,6 +42,7 @@ class View {
 			$twig->addGlobal('dept', \App\Auth::getDept());
 			$twig->addGlobal('programme', \App\Auth::getProgramme());
             $twig->addGlobal('semester', \App\Auth::getSemester());
+			$twig->addGlobal('messages', \App\Auth::getMessages());
         }
         
         // load the template

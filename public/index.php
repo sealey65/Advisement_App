@@ -64,6 +64,10 @@ $router->add('', ['controller' => 'Login', 'action' => 'new']);
 $router->add("logout", ['controller' => 'Home', 'action' => 'destroy']);
 
 $router->add('home', ['controller' => 'Home', 'action' => 'index']);
+
+
+$router->add('inbox', ['controller' => 'Home', 'action' => 'inbox']);
+$router->add('messages/new', ['controller' => 'Messages', 'action' => 'new']);
 /*
     Get URL -> Route to Controller -> Dispatch View
 */ 

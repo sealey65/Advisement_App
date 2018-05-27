@@ -100,35 +100,27 @@
 								<li class="nav-item dropdown">
 									<a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-envelope"></i>
 										<span class="badge badge-info">
-											{% for adv in advisements %}
-												{% set count=0 %}
-												{% for p in adv.posts if p.is_new %}
-													{% set count = count + 1 %}
-													
-												{% endfor %}
+											{% set count = 0 %}
+											{% for msg in messages %}	
+												{% if msg.unread == 1 %}
+													{% set count = count+1 %}							
+												{% endif %}																					
+											{% endfor %}	
 											{{count}}
-										{% endfor %}
 										</span></a>
 									<ul aria-labelledby="notifications" class="dropdown-menu">
-										{% for adv in advisements %}
-											{% set id = "" %}
-											{% for posts in adv.posts if posts.is_new %}													
-												{% if posts.post_date >= id %}
-													{% set id = posts.post_date %}
-													<li>
-														<a rel="nofollow" href="#" class="dropdown-item d-flex"> 
-															<div class="msg-profile"><img src="../img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle"></div>
-															<div class="msg-body">
-																<h3 class="h5">{{posts.stu_fname}} {{posts.stu_lname}}</h3><span>{{posts.content}}</span><small>{{posts.post_date}}</small>
-															</div>
-														</a>
-													</li>
-												{% endif %}
-												{% set id = posts.post_date %}
-											{% endfor %}
-										{% endfor %}
 										<li>
-											<a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong> <i class="fa fa-envelope"></i>Read all messages    </strong></a>
+											{% for msg in messages %}	
+												<a rel="nofollow" href="/Messages/viewConversation&amp;view_conversation={{msg.id}}&amp;subject={{msg.subject}}" class="dropdown-item d-flex"> 
+													<div class="msg-profile"><img src="../img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle"></div>
+													<div class="msg-body">
+														<h3 class="h5">{{msg.subject}}</h3><span>{{msg.fname}} {{msg.lname}}</span><small>{{msg.last_reply | date('M d h:i a')}}</small>
+													</div>
+												</a>
+											{% endfor %}
+										</li>
+										<li>
+											<a rel="nofollow" href="/inbox" class="dropdown-item all-notifications text-center"> <strong> <i class="fa fa-envelope"></i>Read all messages</strong></a>
 										</li>
 									</ul>
 								</li>
@@ -149,7 +141,7 @@
             			</button>
             		</div>	
 				{% endfor %}
-					
+	
 				<footer class="main-footer">
 					<div class="container-fluid">
 						<div class="row">						
@@ -163,6 +155,7 @@
 						</div>
 					</div>
 				</footer>
+
 				{% else %}
 				{% for message in flash_messages %}
 					<div class="alert alert-{{message.type}} alert-dismissible fade show" role="alert">
@@ -176,7 +169,6 @@
 			
 			{% block body %}
 			{% endblock %}
-	
 		</div>
 		
 	  
@@ -193,8 +185,24 @@
 		<script src="/js/charts-home.js"></script>
 		<!-- Main File-->
 		<script src="/js/front.js"></script>
-		{% block final %}
 		
+		<script>
+		
+			var count =0;
+			{% for msg in messages %}	
+				{% if msg.unread == 1 %}
+					count++;						
+				{% endif %}																					
+			{% endfor %}	
+			if(count == 0){
+				$('.badge').hide();
+			}else{
+				$('.badge').show();
+			}
+
+		</script>
+		{% block final %}
+
 		{% endblock %}
 	</body>
 </html>

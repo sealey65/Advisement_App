@@ -352,8 +352,234 @@ class User extends \Core\Model {
         
         return $stmt->execute();
     }
-    
-    
+	
+	
+	/**
+	 * Send a message to another user
+	 *
+	 * @param $to
+	 * @param $subject
+	 * @param $body
+	 *
+	 * @return void
+	 */
+	public function sendMessage(){
+		
+		$this->messageValidate();
+		
+		if(empty($this->errors)){
+			
+			$sql = "INSERT INTO conversations(conversation_subject)VALUES(:subject)";
+			
+			$db = static::getDB();
+			$stmt = $db->prepare($sql);
+
+			$stmt->bindValue(':subject', $this->subject, PDO::PARAM_STR);
+			
+			$stmt->execute();
+			
+			$conversation_id = $db->lastInsertId();
+			$user = $_SESSION['user_id'];
+			
+			$sql = "INSERT INTO conversation_messages(conversation_id, user_id, message_date, message_text)
+					VALUES('$conversation_id', '$user', UNIX_TIMESTAMP(), :message_text); 
+					
+					INSERT INTO conversation_members(conversation_id, user_id, conversation_last_view, conversation_deleted)VALUES('$conversation_id', :to, 0, 0),('$conversation_id', '$user', UNIX_TIMESTAMP(), 0)";
+		
+			$stmt = $db->prepare($sql);
+		
+			$stmt->bindValue(':message_text', $this->body, PDO::PARAM_STR);	
+			$stmt->bindValue(':to', $this->to, PDO::PARAM_STR);
+			
+			return $stmt->execute();
+		}
+		return false;
+	}
+	public function messageValidate(){
+		if($this->to == ''){
+			$this->errors[] = 'Please enter a name';
+		}else{
+			$user = static::getSendTo($this->to);			
+			if($this->to != $user){
+				$this->errors[] = 'This person is not in the system';
+			}	
+		}
+		if ($this->subject == '') {
+            $this->errors[] = 'Please specify a subject';
+        }  
+		if ($this->body == '') {
+            $this->errors[] = 'Please enter a message to send';
+       } 
+	}
+	
+	public static function getSendTo($user){
+			$db = static::getDB();
+			$sql= "SELECT user_id FROM user WHERE user_id = :user_id";
+		
+			$stmt = $db->prepare($sql);
+			  
+			$stmt->bindParam(':user_id', $user, PDO::PARAM_STR);
+        
+        	$stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+            
+        	$stmt->execute();
+        
+			return $stmt->fetch();
+	}
+	public static function getConversation(){
+		
+		$user = $_SESSION['user_id'];
+		
+		$db = static::getDB();
+		$stmt = $db->query("SELECT 
+								conversations.conversation_id, 
+								conversations.conversation_subject,
+								conversation_members.user_id,
+								MAX(conversation_messages.message_date) AS conversation_last_reply,
+								MAX(conversation_messages.message_date) > conversation_members.conversation_last_view AS conversation_unread
+								FROM conversations 
+								LEFT JOIN conversation_messages ON conversations.conversation_id = conversation_messages.conversation_id 
+								INNER JOIN conversation_members ON conversations.conversation_id = conversation_members.conversation_id 
+								WHERE conversation_members.user_id = '$user'
+								AND conversation_members.conversation_deleted = 0
+								GROUP BY conversations.conversation_id
+								ORDER BY conversation_last_reply DESC");
+
+       // $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+            
+        $stmt->execute();
+		
+		$messages = [];         
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			
+                $messages[] = array(
+					
+					'id' => $row['conversation_id'],
+					'subject' => $row['conversation_subject'],
+					'last_reply' => $row['conversation_last_reply'],
+					'user_id' => $row['user_id'],
+					'unread' => ($row['conversation_unread']== 1)
+				);		
+		}
+		return $messages;		
+	}
+	public static function deleteMessage($conversation_id){
+		
+		$user = $_SESSION['user_id'];
+		
+		$db = static::getDB();
+		$stmt = $db->query("SELECT DISTINCT conversation_deleted 
+							FROM conversation_members 
+							WHERE user_id !='$user' 
+							AND conversation_id = '$conversation_id'");
+		
+		$stmt->execute();
+	
+		$row = $stmt->rowCount();
+		$result = $stmt->fetchColumn();
+		
+		if($result == 1 && $row == 1){
+			
+			$stmt = $db->query("DELETE FROM conversations 
+						WHERE conversation_id ='$conversation_id';
+						DELETE FROM conversation_members 
+						WHERE conversation_id ='$conversation_id';
+						DELETE FROM conversation_messages 
+						WHERE conversation_id ='$conversation_id';");
+			
+			return $stmt->execute();
+		}else{
+			$stmt = $db->query("UPDATE conversation_members
+						SET conversation_deleted = 1
+						WHERE conversation_id = '$conversation_id'
+						AND user_id = '$user'");
+			
+			return $stmt->execute();
+		}
+	}
+	
+	public static function viewMessages($conversation_id){
+		
+		$user = $_SESSION['user_id'];
+				
+		/*$temp_user = Auth::getUser();
+		$username ="";
+		$innerjoin = "";
+		$user_names = "";
+		
+		if($temp_user->role_name == "Advisor"){
+			$username = "advisor.adv_fname, advisor.adv_lname";
+			$innerjoin = "INNER JOIN advisor ON conversation_messages.user_id = user.user_id";
+			
+			$user_names = "adv.fname adv.lname";
+			
+		}else if($temp_user->role_name == "Student"){
+			$username = "student.stu_fname";
+			$innerjoin = "INNER JOIN student ON conversation_messages.user_id = user.user_id";
+			
+			$user_names = "stu.fname stu.lname";
+		}*/
+		
+		$db = static::getDB();
+		$stmt = $db->query("SELECT conversation_messages.message_date,
+								conversation_messages.message_date > conversation_members.conversation_last_view AS message_unread,
+								conversation_messages.message_text,
+								user.f_name  AS user_names FROM conversation_messages
+								INNER JOIN user ON conversation_messages.user_id = user.user_id
+								INNER JOIN conversation_members ON conversation_messages.conversation_id = conversation_members.conversation_id
+								WHERE conversation_messages.conversation_id = '$conversation_id'
+								AND conversation_members.user_id = '$user'
+								ORDER BY conversation_messages.message_date ASC");
+		
+		$stmt->execute();
+		
+		$messages = [];         
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			
+                $messages[] = array(
+					
+					'date' => $row['message_date'],
+					'unread' => $row['message_unread'],
+					'text' => $row['message_text'],
+					'username' => $row['user_names']
+				);		
+		}
+		return $messages;		
+	}
+	public static function updateConversationLastView($conversation_id){
+		
+		$user = $_SESSION['user_id'];
+		
+		$db = static::getDB();
+		$stmt = $db->query("UPDATE conversation_members 
+							SET conversation_last_view = UNIX_TIMESTAMP() 
+							WHERE conversation_id = '$conversation_id'
+							AND user_id = '$user'");
+		
+		return $stmt->execute();
+	}
+	
+    public static function replyToMessage($conversation_id, $text){
+		
+		$user = $_SESSION['user_id'];
+		
+		$db = static::getDB();
+		$sql = "INSERT INTO conversation_messages(conversation_id, user_id, message_date, message_text)
+							VALUES('$conversation_id', '$user', UNIX_TIMESTAMP(), :reply)";
+		
+		$stmt = $db->prepare($sql);
+		
+		$stmt->bindParam(':reply', $text, PDO::PARAM_STR);
+		
+		$stmt->execute();
+			
+		$stmt = $db->query("UPDATE conversation_members SET conversation_deleted = 0 
+							WHERE conversation_id = '$conversation_id'");
+		
+		return $stmt->execute();
+	}
 }// end class
 
 ?>
