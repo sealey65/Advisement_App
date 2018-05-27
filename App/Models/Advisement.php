@@ -72,6 +72,7 @@ class Advisement extends \Core\Model {
                     'date_begin' => $row['date_begin'],
                     'date_end' => $row['date_end'],
                     'is_open' => $row['is_open'],
+                    'is_dirty' => $row['is_dirty'],
                     'posts' => [],
                     'advised_courses' => [] 
                 ];
@@ -136,7 +137,9 @@ class Advisement extends \Core\Model {
             $stmt->bindValue(':advisement_id', $this->new_advisement_id, PDO::PARAM_INT);
             $stmt->bindValue(':approved',$approved, PDO::PARAM_BOOL);
             
-            return $stmt->execute();
+            if ($stmt->execute()) {
+                return static::setDirtyFlag($this->new_advisement_id, true);
+            }
             
         }
         return false;
@@ -167,7 +170,9 @@ class Advisement extends \Core\Model {
             $stmt->bindValue(':advisement_id', $this->new_advisement_id, PDO::PARAM_INT);
             $stmt->bindValue(':new_course',$this->new_course, PDO::PARAM_STR);
             
-            return $stmt->execute();
+            if ($stmt->execute()) {
+                return static::setDirtyFlag($this->new_advisement_id, true);
+            }
             
         }
         return false;        
@@ -190,12 +195,13 @@ class Advisement extends \Core\Model {
                 $db = static::getDB();
                 $stmt = $db->prepare($sql);
             
-                //$this->change_course = strtoupper($this->change_course);
 
                 $stmt->bindValue(':old_course', $this->courseCode, PDO::PARAM_STR);
                 $stmt->bindValue(':advisement_id', $this->edit_advisement_id, PDO::PARAM_INT);
             
-                return $stmt->execute(); 
+                if ($stmt->execute()) {
+                    return static::setDirtyFlag($this->edit_advisement_id, true);
+                }
             }
             
             
@@ -223,11 +229,8 @@ class Advisement extends \Core\Model {
                 $db = static::getDB();
                 $stmt = $db->prepare($sql);
 
-                //$this->change_course = strtoupper($this->change_course);
-
                 $stmt->bindValue(':courseCode', $this->courseCode, PDO::PARAM_STR);
                 $stmt->bindValue(':advisement_id', $this->edit_advisement_id, PDO::PARAM_INT);
-                // $stmt->bindValue(':radioRemove',$this->radioRemove, PDO::PARAM_STR);
 
                 return $stmt->execute();
             }
@@ -252,10 +255,27 @@ class Advisement extends \Core\Model {
         
     }
     
+
+    public static function setDirtyFlag($adv, $flag) {
+        
+        $sql = 'UPDATE advisement SET is_dirty = :is_dirty WHERE advisement_id = :advisement_id';
+            
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        //$this->change_course = strtoupper($this->change_course);
+
+        $stmt->bindValue(':is_dirty', $flag, PDO::PARAM_BOOL);
+        $stmt->bindValue(':advisement_id', $adv, PDO::PARAM_INT);
+
+        return $stmt->execute();
+
+    }
     
     
-    
-    
+    public function clearDirty() {
+        return static::setDirtyFlag($this->edit_advisement_id, false);
+    }
     
     
 }// end class

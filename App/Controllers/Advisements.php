@@ -87,6 +87,20 @@ class Advisements extends Authenticated {
 
     }
     
+    public function clearDirtyAction()
+    {
+        $advisement = new Advisement($_POST);
+        if ($advisement->clearDirty()) {
+            // nothing
+        } else {
+            foreach ($advisement->errors as $error) {
+                Flash::addMessage($error, Flash::DANGER);
+            }
+        }
+        $this->redirect('/advisements/'.$advisement->new_student.'/view');
+
+    }
+    
    
 }// end class
 
