@@ -14,8 +14,7 @@ class Home extends Authenticated {
     public function indexAction() {	
 		$user = Auth::getUser();
 		if($user){	
-			$advisements = Advisement::getMessages($user->user_id);
-			View::render("Home/index.html", ['advisements' => $advisements]);
+			View::render("Home/index.html");
 		}else{
 			View::render('Login/index.html');	
 		}
