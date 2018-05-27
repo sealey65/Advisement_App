@@ -4,6 +4,7 @@ namespace App\Models;
 
 use PDO;
 //use \App\Auth;
+use \App\Models\Course;
 
 /*
     Advisement Model
@@ -109,9 +110,8 @@ class Advisement extends \Core\Model {
     public function addNewCourse() {
         /*
             expected data:
-            advisement_id
+            new_advisement_id
             new_course
-            new_type
             checkbox new_approved
         */
         
@@ -124,8 +124,8 @@ class Advisement extends \Core\Model {
                 $approved = true;
             }
 
-            $sql = 'INSERT INTO advised_course ( course_code, advisement_id, approved, type) 
-                            VALUES ( :course_code, :advisement_id, :approved, :type)';
+            $sql = 'INSERT INTO advised_course ( course_code, advisement_id, approved) 
+                            VALUES ( :course_code, :advisement_id, :approved)';
             
             $db = static::getDB();
             $stmt = $db->prepare($sql);
@@ -135,7 +135,6 @@ class Advisement extends \Core\Model {
             $stmt->bindValue(':course_code', $this->new_course, PDO::PARAM_STR);
             $stmt->bindValue(':advisement_id', $this->new_advisement_id, PDO::PARAM_INT);
             $stmt->bindValue(':approved',$approved, PDO::PARAM_BOOL);
-            $stmt->bindValue(':type', $this->new_type, PDO::PARAM_STR);
             
             return $stmt->execute();
             
@@ -148,12 +147,12 @@ class Advisement extends \Core\Model {
     public function updateCourse() {
         /*
             expected data:
-            advisement_id
+            new_advisement_id
             old_course
-            change_course            
+            new_course            
         */
         
-        //$this->validateCourse();
+        $this->validateCourse();
         
         if (empty($this->errors)) {            
             
@@ -162,11 +161,11 @@ class Advisement extends \Core\Model {
             $db = static::getDB();
             $stmt = $db->prepare($sql);
             
-            $this->change_course = strtoupper($this->change_course);
+            $this->change_course = strtoupper($this->new_course);
 
             $stmt->bindValue(':old_course', $this->old_course, PDO::PARAM_STR);
-            $stmt->bindValue(':advisement_id', $this->edit_advisement_id, PDO::PARAM_INT);
-            $stmt->bindValue(':new_course',$this->change_course, PDO::PARAM_STR);
+            $stmt->bindValue(':advisement_id', $this->new_advisement_id, PDO::PARAM_INT);
+            $stmt->bindValue(':new_course',$this->new_course, PDO::PARAM_STR);
             
             return $stmt->execute();
             
@@ -207,45 +206,57 @@ class Advisement extends \Core\Model {
     }
     
     
+    
+    public function approveCourse() {
+        /*
+            expected data:
+            advisement_id
+            courseCode
+        */
+        if (empty($this->errors)) {
+
+            if($this->radioRemove!="Yes"){
+                return false;
+            }else{
+                $sql = 'UPDATE advised_course SET approved= 1 WHERE advisement_id = :advisement_id AND course_code = :courseCode';
+
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
+
+                //$this->change_course = strtoupper($this->change_course);
+
+                $stmt->bindValue(':courseCode', $this->courseCode, PDO::PARAM_STR);
+                $stmt->bindValue(':advisement_id', $this->edit_advisement_id, PDO::PARAM_INT);
+                // $stmt->bindValue(':radioRemove',$this->radioRemove, PDO::PARAM_STR);
+
+                return $stmt->execute();
+            }
+
+
+
+        }
+        return false;
+
+    }
+    
+    
+    
     public function validateCourse() {
-        if (static::courseExists($this->new_course) == false) {
+        if (Course::courseExists($this->new_course) == false) {
             $this->errors[] = 'The Course specified does not exist.';
-        }        
-    }
-    
-    
-    
-    
-    /*
-        get semester for advisement
-    */
-    public static function findCourseByCode($course_code) {
+        }
         
-        $sql = "
-            SELECT * 
-            FROM course
-            WHERE course_code = :course_code";
-        
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
-        
-        $stmt->bindParam(':course_code', $course_code, PDO::PARAM_STR);
-        
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-            
-        $stmt->execute();
-        
-        return $stmt->fetch();
+        if (Course::courseExistsInAdvisement($this->new_course, $this->new_advisement_id)) {
+            $this->errors[] = 'The Course has already been added to this advisement.';
+        }
         
     }
     
     
-    /*
-        find if email exits in database 
-    */
-    public static function courseExists($course_code) {
-        return static::findCourseByCode($course_code)  !== false;        
-    }
+    
+    
+    
+    
     
 }// end class
 

@@ -72,6 +72,21 @@ class Advisements extends Authenticated {
         $this->redirect('/advisements/'.$advisement->new_student.'/view');
     }
     
+    
+    public function approveCourseAction()
+    {
+        $advisement = new Advisement($_POST);
+        if ($advisement->approveCourse()) {
+            // nothing
+        } else {
+            foreach ($advisement->errors as $error) {
+                Flash::addMessage($error, Flash::DANGER);
+            }
+        }
+        $this->redirect('/advisements/'.$advisement->new_student.'/view');
+
+    }
+    
    
 }// end class
 
