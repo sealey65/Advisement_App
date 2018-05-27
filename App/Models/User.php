@@ -396,7 +396,7 @@ class User extends \Core\Model {
 			$this->errors[] = 'Please enter a name';
 		}else{
 			$user = static::getSendTo($this->to);			
-			if($this->to != $user){
+			if($this->to != $user->user_id){
 				$this->errors[] = 'This person is not in the system';
 			}	
 		}
@@ -417,7 +417,7 @@ class User extends \Core\Model {
 	 * */
 	public static function getSendTo($user){
 			$db = static::getDB();
-			$sql= "SELECT user_id FROM user WHERE user_id = :user_id";
+			$sql= "SELECT * FROM user WHERE user_id = :user_id";
 		
 			$stmt = $db->prepare($sql);
 			  
