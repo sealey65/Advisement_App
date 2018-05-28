@@ -46,7 +46,10 @@ class Home extends Authenticated {
 	}
 	
 	public function degreeAction(){
-		View::render("Student/degree.html");
+		$student = $_SESSION['user_id'];
+		$results = Degree::getDegreeCourses(Degree::getProgramId($student)['program_id']);
+		
+		View::render("Student/degree.html", ['results' => $results]);
 	}
 	
 	public function inboxAction(){
