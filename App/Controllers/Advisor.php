@@ -21,7 +21,6 @@ class Advisor extends Authenticated {
             $this->redirect('/');
         } else {
             $dept_list = AdvisorList::getListByDept();
-            
             View::render('advisor.html', ['dept_list' => $dept_list]);
         }
         

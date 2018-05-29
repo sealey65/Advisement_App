@@ -20,17 +20,16 @@
         <button id="on-search-for">search</button>
         <button id="on-revert">revert</button>
     </div>
-
     {% for s in dept_list %}
         <div class="card adv {{s.student}} {{s.stu_fname|lower}} {{s.stu_lname|lower}}">
             <div class="card-body">
                 <p>
                     <a href="/advisements/{{s.student}}/view">{{s.student}}, {{s.stu_fname}} {{s.stu_lname}}</a>
                     {% if s.is_dirty %}
-                        <span data-toggle="tooltip" data-placement="top" title="Changes have been made to this advisement" class="badge badge-danger">!</span>
+                        <span data-toggle="tooltip" data-placement="top" title="Changes have been made to this advisement" class="border rounded px-2 badge-danger">!</span>
                     {% endif %}
                     {% if s.advisor == user.user_id %}
-                        <span data-toggle="tooltip" data-placement="top" title="Student's advisement belongs to you." class="badge badge-success">owned</span>
+                        <span data-toggle="tooltip" data-placement="top" title="Student's advisement belongs to you." class="border rounded px-2 badge-success">owned</span>
                     {% endif %}
                 </p>
             </div>
@@ -60,7 +59,7 @@
 {% block final %}
     <script>
         $(document).ready(function() {
-            
+
             // toggle the tooltips (bootstrap)
             $('[data-toggle="tooltip"]').tooltip();
             

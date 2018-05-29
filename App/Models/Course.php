@@ -33,7 +33,7 @@ class Course extends \Core\Model {
     /*
         get Course by course code
     */
-    public static function findCourse($course_code) {
+    public static function findCourseByCode($course_code) {
 
         
         $sql = "

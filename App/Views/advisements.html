@@ -22,7 +22,7 @@
 
 
 {% block body %}
-<h1 class="text-center">Advisement</h1>
+<h1 style="margin-top: 50px" class="text-center">Advisement</h1>
 
 <div class="row p-5" style="border: 1px solid #F0F0F0;">
     
@@ -64,7 +64,7 @@
                                     <input type="hidden" name="edit_advisement_id" value="{{adv.advisement_id}}">
                                     <input type="hidden" name="new_student" value="{{adv.student}}">
                                     <div class="form-group">
-                                        <input type="submit" value="Clear" class="btn btn-success mt-1">
+                                        <input style="width: 75px;" type="submit" value="Clear" class="btn btn-success mt-1">
                                     </div>
                             </form>
                             </div>
@@ -147,7 +147,7 @@
                                         <input type="hidden" name="courseCode" value="{{c.course_code}}">
                                         <input type="hidden" name="new_student" value="{{adv.student}}">
                                         <div class="form-group">
-                                            <input type="submit" value="Submit" class="btn btn-success mt-1">
+                                            <input style="width: 75px;" type="submit" value="Submit" class="btn btn-success mt-1">
                                         </div>
                                     </div>
                                 </form>
@@ -180,7 +180,7 @@
                                         <input type="hidden" name="courseCode" value="{{c.course_code}}">
                                         <input type="hidden" name="new_student" value="{{adv.student}}">
                                         <div class="form-group">
-                                            <input type="submit" value="Submit" class="btn btn-success mt-1">
+                                            <input style="width: 75px;" type="submit" value="Submit" class="btn btn-success mt-1">
                                         </div>
                                     </div>
                                 </form>
@@ -200,7 +200,7 @@
 
                     {% if adv.is_open %}
                     <div>
-                        <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#add-{{adv.advisement_id}}" aria-expanded="false" aria-controls="add-{{adv.advisement_id}}">
+                        <button style="width: 90px;" class="btn btn-success" type="button" data-toggle="collapse" data-target="#add-{{adv.advisement_id}}" aria-expanded="false" aria-controls="add-{{adv.advisement_id}}">
                             Add New
                         </button>
                         <hr>
@@ -226,7 +226,7 @@
                                     <input type="hidden" name="new_advisement_id" value="{{adv.advisement_id}}">
                                     <input type="hidden" name="new_student" value="{{adv.student}}">
                                     <div class="form-group">
-                                        <input type="submit" value="Submit" class="btn btn-success mt-1">
+                                        <input style="width: 75px;" type="submit" value="Submit" class="btn btn-success mt-1">
                                     </div>
                                 </form>
                             </div>
@@ -246,7 +246,7 @@
 
 
 {% block final %}
-    <script src="/js/jquery.validate.js"></script>
+   
     <script>
         $(document).ready(function() {
             
