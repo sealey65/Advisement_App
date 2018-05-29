@@ -10,7 +10,6 @@ use App\Flash;
 class Advisements extends Authenticated {
 
 
-    
        
     public function viewAction($user_id) {
         
@@ -28,8 +27,6 @@ class Advisements extends Authenticated {
        
     }
     
-   
-    
     
     /*
         save a new course for an advisement
@@ -44,6 +41,7 @@ class Advisements extends Authenticated {
                 Flash::addMessage($error, Flash::DANGER);
             }
         }
+
         $this->redirect('/advisements/'.$advisement->new_student.'/view');
     }
     
@@ -100,6 +98,7 @@ class Advisements extends Authenticated {
         $this->redirect('/advisements/'.$advisement->new_student.'/view');
 
     }
+
     
    
 }// end class

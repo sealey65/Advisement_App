@@ -14,4 +14,5 @@ abstract class Authenticated extends \Core\Controller {
     
 }// end class
 
+
 ?>

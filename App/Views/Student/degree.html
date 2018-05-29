@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+	<h1>Program: {{results.0.program_name}}</h1>
+	<h2>Level: {{results.0.program_level}}</h2>
+	<table>
+		<tr>
+			<th>Course Code</th>
+			<th>Course Name</th>
+			<th>Credit Hours</th>
+			<th>Prerequisite Course Code</th>
+
+		</tr>
+		{%for result in results%}
+			<tr>
+				<td>{{result.course_code}}</td>
+				<td>{{result.course_name}}</td>
+				<td>{{result.credit_hours}}</td>
+				<td title='{{result.prerequisite}}'>{{result.prereq_code}}</td>
+
+			</tr>
+		{%endfor%}
+	</table>
+{% endblock %}
+
+{% block final %}
+	<script src="/js/script.js"></script>
+{% endblock %}

@@ -7,9 +7,9 @@ use \App\Auth;
 use \App\Flash;
 use \App\Models\AdvisorList;
 
+
 class Advisor extends Authenticated {
 
-    
     public function viewAction() {
         
         // get current logged in user

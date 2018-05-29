@@ -59,11 +59,18 @@ $router->add('{controller}/{action}');
 // url/controller/99/action
 $router->add('{controller}/{id:\d+}/{action}');
 // single action controllers
+$router->add('/', ['controller' => 'Login', 'action' => 'new']);
 $router->add('', ['controller' => 'Login', 'action' => 'new']);
 
-$router->add('Logout', ['controller' => 'Login', 'action' => 'logout']);
+$router->add("logout", ['controller' => 'Home', 'action' => 'destroy']);
+
+$router->add('home', ['controller' => 'Home', 'action' => 'index']);
 
 $router->add('Help', ['controller' => 'Help', 'action' => 'view']);
+
+$router->add('inbox', ['controller' => 'Home', 'action' => 'inbox']);
+$router->add('messages/new', ['controller' => 'Messages', 'action' => 'new']);
+
 
 $router->add('Advisement', ['controller' => 'Advisements', 'action' => 'view']);
 
@@ -72,6 +79,5 @@ $router->add('Advisement', ['controller' => 'Advisements', 'action' => 'view']);
 */ 
 $url = $_SERVER['QUERY_STRING'];
 $router->dispatch($url);
-
 
 ?>

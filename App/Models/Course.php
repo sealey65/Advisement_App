@@ -3,6 +3,11 @@
 namespace App\Models;
 
 use PDO;
+//use \App\Auth;
+
+/*
+    Semester Model
+*/
 
 class Course extends \Core\Model {
 
@@ -28,7 +33,8 @@ class Course extends \Core\Model {
     /*
         get Course by course code
     */
-    public static function findCourseByCode($course_code) {
+    public static function findCourse($course_code) {
+
         
         $sql = "
             SELECT * 

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Semester{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Semester</h1>			
+	<section class="dashboard-counts section-padding">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-2">
+                    <select id="semester" name="semester" class="form-control">
+						{% for s in semester %}
+							<option value="{{s.semester_id}}">{{s.semester_id}}</option>		
+						{% endfor %}
+                	</select>
+					<small class="error-holder"></small>
+				</div>
+				<div class="col-xl-2 col-md-4 col-6" id="semesterCollapse"><!-- show semester details--></div>				
+			</div>			
+		</div>
+	
+	</section>
+	<div class="col-sm-2 container-fluid add-btn">
+		<button class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#newCollapse" aria-expanded="false" aria-controls="newCollapse">add new</button>
+	</div>
+	<div class="col-lg-6 container-fluid collapse new-semester" id="newCollapse">
+		<div class="card">
+			<div class="card-header d-flex align-items-center">
+				<h4>Add Semester</h4>
+			</div>
+            <div class="card-body">
+            	<form method="post" action="/admin/addSemester" id="formLogin">
+					<div class="form-group">
+                    	<label>Semester Id</label>
+                      	<input type="text" id="semester_id" class="form-control" placeholder="Semester Id" name="semester_id" value="{{semester_id}}">
+						<small class="error-holder"></small>
+                    </div>
+					<div class="form-group">
+                    	<label>Begin Date</label>
+                      	<input type="date" id="begin_date" class="form-control" placeholder="Begin date" name="begin_date" value="{{begin_date}}">
+						<small class="error-holder"></small>
+                    </div>
+					<div class="form-group">
+                    	<label>End Date</label>
+                      	<input type="date" id="end_date" class="form-control" placeholder="End date" name="end_date" value="{{end_date}}">
+						<small class="error-holder"></small>
+                    </div>
+					<div class="col-sm-5 mb-4 ">
+						<label>Status</label>
+                        <select id="status" name="status" class="form-control">
+                          	<option value="1">Open</option>
+							<option value="0">Closed</option>				
+                        </select>
+						<small class="error-holder"></small>
+					</div>
+                    <div class="form-group">       
+                    	<input type="submit" value="Add Semester" class="btn btn-primary">
+                    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block final %}
+<script>
+	 $(document).ready(function(){
+		{% for s in semester %}
+    		if ($("#semester").val()=={{s.semester_id}}){
+				var $open="Closed";
+				if({{s.is_open}} == "1"){
+					$open = "Open";
+				}
+				$("#semesterCollapse").html('<div class="wrapper count-title d-flex">\
+							<div class="name">\
+								<strong class="text-uppercase">Semester: {{s.semester_id}}</strong>\
+								<span>Opening date: {{s.date_begin}}</span>\
+								<span>Closing date: {{s.date_end}}</span>\
+								<span class="count-number">Status: '+$open+'</span>\
+							</div>\
+						</div>');
+			}
+		 {% endfor %}
+		 
+	});
+    $("#semester").change(function(){
+		{% for s in semester %}
+    		if ($(this).val()=={{s.semester_id}}){
+				var $open="Closed";
+				if({{s.is_open}} == "1"){
+					$open = "Open";
+				}
+				$("#semesterCollapse").html('<div class="wrapper count-title d-flex">\
+							<div class="name">\
+								<strong class="text-uppercase">Semester: {{s.semester_id}}</strong>\
+								<span>Opening date: {{s.date_begin}}</span>\
+								<span>Closing date: {{s.date_end}}</span>\
+								<span class="count-number">Status: '+$open+'</span>\
+							</div>\
+						</div>');
+			}
+		 {% endfor %}
+		 
+	});
+</script>
+{% endblock %}

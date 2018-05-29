@@ -6,6 +6,7 @@ use PDO;
 //use \App\Auth;
 use \App\Models\Course;
 
+
 /*
     Advisement Model
 */
@@ -39,13 +40,10 @@ class Advisement extends \Core\Model {
             SELECT * 
             FROM advisement
             JOIN advised_course USING (advisement_id)
-            JOIN post USING (advisement_id)
             JOIN semester USING (semester_id)
             JOIN course USING (course_code)
-            LEFT JOIN student USING (user_id)
-            LEFT JOIN advisor USING (user_id)
             WHERE student = :user_id
-            ORDER BY semester_id DESC, post_date DESC";
+            ORDER BY semester_id DESC";
         
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -73,28 +71,14 @@ class Advisement extends \Core\Model {
                     'date_end' => $row['date_end'],
                     'is_open' => $row['is_open'],
                     'is_dirty' => $row['is_dirty'],
-                    'posts' => [],
                     'advised_courses' => [] 
                 ];
-            // now that the advisement has been ensured as created, add the post and advised course data
+            // now that the advisement has been ensured as created, add the advised course data
             // if not already in there 
-            if (!isset($advisements[$row['advisement_id']]['posts'][$row['post_id']])){
-                $advisements[$row['advisement_id']]['posts'][$row['post_id']] = [
-                    'user_id' => $row['user_id'],
-                    'content' => $row['content'],
-                    'post_id' => $row['post_id'],
-                    'post_date' => $row['post_date'],
-                    'stu_fname' => $row['stu_fname'],
-                    'stu_lname' => $row['stu_lname'],
-                    'adv_fname' => $row['adv_fname'],
-                    'adv_lname' => $row['adv_lname']
-                ];
-            }
             if (!isset($advisements[$row['advisement_id']]['advised_courses'][$row['advised_course_id']])){
                 $advisements[$row['advisement_id']]['advised_courses'][$row['advised_course_id']] = [
                     'course_code' => $row['course_code'],
                     'approved' => $row['approved'],
-                    'type' => $row['type'],
                     'credit_hours' => $row['credit_hours'],
                     'course_name' => $row['course_name']
                 ];
@@ -242,8 +226,7 @@ class Advisement extends \Core\Model {
 
     }
     
-    
-    
+
     public function validateCourse() {
         if (Course::courseExists($this->new_course) == false) {
             $this->errors[] = 'The Course specified does not exist.';
