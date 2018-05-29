@@ -1,0 +1,31 @@
+.bg-white {
+    background-color: #fff;
+}
+
+.error {
+    color: #f00;
+}
+
+.white {
+    color: #fff;
+}
+
+/* MOBILE LAST */
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-height: 520px) { 
+	footer.main-footer {
+		bottom:-60px;
+	}
+	
+}
+
+
+/* styles for printing */
+
+@media print {
+    .navbar, footer {
+        display: none;
+    }
+    
+}

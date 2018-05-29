@@ -54,7 +54,7 @@ class Error {
             // display error on page.
             if (\App\Config::SHOW_ERRORS) {
 
-                echo '<div class="alert alert-sm alert-danger alert-dismissible fade show" role="alert">';
+                echo '<div style="position: absolute; z-index:99999; "class="alert alert-sm alert-danger alert-dismissible fade show" role="alert">';
 
                 echo "<h1>Fatal Error</h1>";
                 echo "<p>Uncaught exception: '$cname'</p>";

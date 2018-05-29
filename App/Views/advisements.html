@@ -84,16 +84,16 @@
                     {% if adv.is_open %}
                     <div>
                         {% if (user.role_name == 'Student' and c.approved == 0) or user.role_name == 'Advisor' %}
-                            <button class="btn btn-success btn-md " type="button" data-toggle="collapse" data-target="#edit-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
+                            <button style="width: 75px;" class="btn btn-success btn-md " type="button" data-toggle="collapse" data-target="#edit-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
                                 Edit
                             </button>
-                            <button class="btn btn-danger btn-md " type="button" data-toggle="collapse" data-target="#remove-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
+                            <button style="width: 75px;"class="btn btn-danger btn-md " type="button" data-toggle="collapse" data-target="#remove-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
                                 Remove
                             </button>
                         {% endif %}
 
                         {% if user.role_name == 'Advisor' and c.approved == 0 %}
-                            <button class="btn btn-primary btn-md " type="button" data-toggle="collapse" data-target="#approve-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
+                            <button style="width: 75px;" class="btn btn-primary btn-md " type="button" data-toggle="collapse" data-target="#approve-course-{{c.course_code|replace({' ':_,})}}" aria-expanded="false" aria-controls="edit-course-{{c.course_code|replace({' ':_,})}}">
                                 Approve
                             </button>
                         {% endif %}
@@ -115,7 +115,7 @@
                                     <input type="hidden" name="old_course" value="{{c.course_code}}">
                                     <input type="hidden" name="new_student" value="{{adv.student}}">
                                     <div class="form-group">
-                                        <input type="submit" value="Submit" class="btn btn-success mt-1">
+                                        <input style="width: 75px;" type="submit" value="Submit" class="btn btn-success mt-1">
                                     </div>
                                 </form>
                             {% else %}
@@ -277,10 +277,11 @@
             {% for c in adv.advised_courses %}
                 $("#form-{{c.course_code|replace({' ':_,})}}-edit").validate({
 
+                        
                     errorPlacement: function(error, element) {
                         error.appendTo( element.parentsUntil('form', '.form-group-material').find('.error-holder') );
                     },
-
+                    
                     rules: {
                         new_course: {
                             required: true,

@@ -61,11 +61,13 @@
 							<li><a href="/home/deleteUser"> <i class="fa fa-minus-square"></i>Delete A User</a></li>
 							<li><a href="/home/semester"> <i class="fa fa-calendar"></i>Semester</a></li>
 						{% endif %}
-						{% if user.role_name == 'Student' or user.role_name == 'Advisor'%}							
-							<li><a href="/home/advisement"> <i class="fa fa-exchange"></i>Advisement</a></li>
+						{% if user.role_name == 'Advisor'%}							
+							<li><a href="/advisor/view"> <i class="fa fa-exchange"></i>Student List</a></li>
 						{% endif %}
-						{% if user.role_name == 'Student' %}						
-							<li><a href="/home/degree"> <i class="fa fa-graduation-cap"></i>Degree</a></li>										
+						{% if user.role_name == 'Student' %}	
+                            <li><a href="/advisements/{{user.user_id}}/view"> <i class="fa fa-exchange"></i>Advisements</a></li>
+							<li><a href="/home/degree"> <i class="fa fa-graduation-cap"></i>Degree</a></li>	
+                            
 						{% endif %}
 						<li><a href="#dropdownDropdown" aria-expanded="false" data-toggle="collapse"> 
 							<i class="icon-interface-windows"></i>dropdown if needed 
