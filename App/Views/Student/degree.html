@@ -13,14 +13,30 @@
 			<th>Prerequisite Course Code</th>
 
 		</tr>
+		{%set pre = 0%}
 		{%for result in results%}
+			
+			{%if pre != 0 %}
+				{%if pre != result.course_code%}
+					</td>
+				
+
+				</tr>
+				{%endif%}
+			{%endif%}
+			
+			{%if pre != result.course_code%}
 			<tr>
 				<td>{{result.course_code}}</td>
 				<td>{{result.course_name}}</td>
 				<td>{{result.credit_hours}}</td>
-				<td title='{{result.prerequisite}}'>{{result.prereq_code}}</td>
-
-			</tr>
+				<td ><span title='{{result.prerequisite}}'>{{result.prereq_code}}</span>
+			{%else%}
+					, <span title='{{result.prerequisite}}'>{{result.prereq_code}}</span>
+					
+			{%endif%}
+			
+			{%set pre = result.course_code%}
 		{%endfor%}
 	</table>
 {% endblock %}
