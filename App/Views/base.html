@@ -42,13 +42,14 @@
 				<!-- Sidebar Header    -->
 				<div class="sidenav-header d-flex align-items-center justify-content-center">
 					<!-- User Info-->
-					<div class="sidenav-header-inner text-center"><img src="/img/avatar-1.png" alt="person" class="img-fluid rounded-circle">
+					<div class="sidenav-header-inner text-center"><img {% if user.profile_picture != null %}src="{{ user.profile_picture }}"{% else %}src="/img/avatar-1.png"{% endif %} alt="person" class="img-fluid rounded-circle">
 						<h2 class="h5">{{user.user_id}}</h2><span>{{user.role_name}}</span>
 					</div>
 					<!-- Small Brand information, appears on minimized sidebar-->
 					<div class="sidenav-header-logo">
 						<a href="/" class="brand-small text-center"><img class="side-logo" src="/img/logo-icon.png" /><!--<strong>A</strong><strong class="text-primary">M</strong>--></a>
 					</div>
+				</div>
 				</div>
 				<!-- Sidebar Navigation Menus-->
 				<div class="main-menu">
@@ -69,15 +70,6 @@
 							<li><a href="/home/degree"> <i class="fa fa-graduation-cap"></i>Degree</a></li>	
                             
 						{% endif %}
-						<li><a href="#dropdownDropdown" aria-expanded="false" data-toggle="collapse"> 
-							<i class="icon-interface-windows"></i>dropdown if needed 
-							</a>
-							<ul id="dropdownDropdown" class="collapse list-unstyled ">
-								<li><a href="#">Page</a></li>
-								<li><a href="#">Page</a></li>
-								<li><a href="#">Page</a></li>
-							</ul>
-						</li>
 					</ul>
 				</div>
 			</div>
@@ -114,7 +106,7 @@
 										<li>
 											{% for msg in messages %}	
 												<a rel="nofollow" href="/Messages/viewConversation&amp;view_conversation={{msg.id}}&amp;subject={{msg.subject}}" class="dropdown-item d-flex"> 
-													<div class="msg-profile"><img src="/img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle"></div>
+													<div class="msg-profile"><img src="/img/avatar-1.png" alt="..." class="img-fluid rounded-circle"></div>
 													<div class="msg-body">
 														<h3 class="h5">{{msg.subject}}</h3><span>{{msg.fname}} {{msg.lname}}</span><small>{{msg.last_reply | date('M d h:i a')}}</small>
 													</div>

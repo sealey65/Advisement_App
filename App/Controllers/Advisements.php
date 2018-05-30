@@ -22,7 +22,7 @@ class Advisements extends Authenticated {
             $this->redirect('/');
         } else {
             $advisements = Advisement::getAdvisements($user_id);
-            View::render('advisements.html', ['advisements' => $advisements]);
+            View::render('/advisements.html', ['advisements' => $advisements]);
         }
        
     }
